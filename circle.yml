@@ -1,0 +1,30 @@
+machine:
+  node:
+    version: 6
+
+dependencies:
+  override:
+    - yarn:
+        timeout: 180 # timeout after 3 minutes
+        # IMPORTANT NOTE: ^^ the timeout modifier above must be
+        # double indented (four spaces) from the previous line
+
+test:
+  override:
+    - /bin/true
+  post:
+    - yarn build
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - npm i -g surge
+      - echo app.backstroke.us > ./build/CNAME
+      - surge --project ./build --domain app-backstroke.surge.sh
+
+  staging:
+    branch: /.*/
+    commands:
+      - npm i -g surge
+      - surge --project ./build --domain app-backstroke-$CIRCLE_BRANCH.surge.sh
