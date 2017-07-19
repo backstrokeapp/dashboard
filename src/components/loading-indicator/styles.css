@@ -1,0 +1,14 @@
+.loading-indicator {
+  border: 4px dotted #222;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+
+  animation: loading-indicator-spin 3s infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes loading-indicator-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
