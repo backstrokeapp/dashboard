@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@density/conduit": "^0.2.1",
+    "classnames": "^2.2.5",
     "color-hash": "^1.0.3",
     "lodash.debounce": "^4.0.8",
     "normalize.css": "^7.0.0",
