@@ -1,0 +1,39 @@
+.environment-switcher {
+  width: 400px;
+  height: 300px;
+  margin: 20px auto;
+
+  background-color: #fafafa;
+  border: 1px solid #222;
+
+  position: fixed;
+  left: calc(50% - 200px);
+
+  display: flex;
+  flex-direction: column;
+  font-family: Helvetica, sans-serif;
+}
+
+.environment-switcher-items {
+  padding-left: 0px;
+  list-style-type: none;
+  flex: 1;
+}
+
+.environment-switcher-item {
+  padding: 10px;
+}
+
+.environment-switcher-footer {
+  background-color: #cacaca;
+}
+
+.environment-switcher-button {
+  width: calc(100% - 20px);
+  font-size: 16px;
+  line-height: 32px;
+  margin: 10px;
+  color: #fff;
+  background-color: #E95D11;
+  border-width: 0px;
+}

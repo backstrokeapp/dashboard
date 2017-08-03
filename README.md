@@ -21,3 +21,9 @@ Backstroke links.
 - `REACT_APP_API_URL`: The path to the api that this project interacts with. In production, this is
   `https://api.backstroke.us`.
 - `REACT_APP_ROOT_URL`: The path to the main site. In production, this is `https://backstroke.us`.
+
+## Environment switcher
+When developing, press bang-bang-grave-space in quick succession (bang = !, grave = \`). This opens
+a small modal that lets the user choose an environment to point the system to (locally, production,
+staging, or something else). One option is the environment variable above, `REACT_APP_API_URL`. This
+setting persists in `localStorage` between page reloads.
