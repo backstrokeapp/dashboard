@@ -19,7 +19,7 @@ export default function links(state=initialState, action) {
   switch (action.type) {
   case COLLECTION_LINKS_SELECT:
   case ROUTE_TRANSITION_LINK_DETAIL:
-    return {...state, selected: action.id, error: null};
+    return {...state, selected: parseInt(action.id, 10), error: null};
   case ROUTE_TRANSITION_LINK_LIST:
     return {...state, error: null};
   case COLLECTION_LINKS_START_LOADING:

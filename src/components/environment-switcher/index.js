@@ -15,7 +15,6 @@ export default class EnvironmentSwitcher extends React.Component {
     const keys = this.props.keys || ['!', '!', '`'];
     let indexInKeys = 0;
     window.addEventListener('keydown', e => {
-      console.log(indexInKeys, e.key)
       if (keys[indexInKeys] === e.key) {
         if (indexInKeys === keys.length - 1) {
           indexInKeys = 0;

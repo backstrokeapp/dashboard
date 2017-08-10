@@ -7,7 +7,7 @@ export default function collectionLinksSave(link) {
     return fetch(`${API_URL}/v1/links/${link.id}`, {
       method: 'POST',
       credentials: 'include',
-      body: JSON.stringify({link}),
+      body: JSON.stringify(link),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

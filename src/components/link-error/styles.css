@@ -5,9 +5,13 @@
   justify-content: center;
 }
 
-.link-error {
+.link-error, .link-error a {
   font-family: "Lato", Helvetica, Arial, sans-serif;
   font-size: 18px;
   display: inline-block;
   color: #de3535;
+}
+
+.link-error a {
+  padding-left: 16px;
 }

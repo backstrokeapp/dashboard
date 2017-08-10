@@ -81,7 +81,7 @@ ReactDOM.render(<Provider store={store}>
           slug: 'server',
           defaults: {
             'Production': 'https://api.backstroke.us',
-            'Local': 'http://localhost:3000',
+            'Local': 'http://localhost:8000',
             'Env (REACT_APP_API_URL)': process.env.REACT_APP_API_URL,
           },
           default: process.env.NODE_ENV === 'production' ? 'Production' : 'Local',

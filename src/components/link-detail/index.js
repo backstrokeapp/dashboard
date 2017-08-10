@@ -42,16 +42,16 @@ export class LinkDetail extends React.Component {
       upstreamError: null,
       forkError: null,
 
-      upstreamOwner: link && link.upstream ? link.upstream.owner : '',
-      upstreamRepo: link && link.upstream ? link.upstream.repo : '',
-      upstreamBranch: link && link.upstream ? link.upstream.branch : '',
+      upstreamOwner: (link && link.upstream && link.upstream.owner) || '',
+      upstreamRepo: (link && link.upstream && link.upstream.repo) || '',
+      upstreamBranch: (link && link.upstream && link.upstream.branch) || '',
       upstreamBranchList: (link && link.upstream && link.upstream.branches) || [],
 
       forkOwner: (link && link.fork && link.fork.owner) || '',
       forkRepo: (link && link.fork && link.fork.repo) || '',
       forkBranch: (link && link.fork && link.fork.branch) || '',
       forkBranchList: (link && link.fork && link.fork.branches) || [],
-      forkType: link && link.fork ? link.fork.type : 'fork-all',
+      forkType: (link && link.fork && link.fork.type) || 'fork-all',
     };
 
     // A debounced function to change the theme color. This is done so that changing the theme color
