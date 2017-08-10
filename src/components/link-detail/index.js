@@ -164,6 +164,7 @@ export class LinkDetail extends React.Component {
     return <div>
       {/* report any errors */}
       <LinkError error={this.props.linkError} />
+      {this.props.loading ? <LinkLoading /> : null}
 
       <div className="link-detail" style={{backgroundColor: link.enabled ? this.state.themeColor : null}}>
         <textarea
@@ -338,8 +339,27 @@ export default connect(state => {
   };
 })(function(props) {
   if (!props.links.loading) {
-    return <LinkDetail {...props} initialLinkState={props.link} linkError={props.links.error} />;
+    return <LinkDetail
+      {...props}
+
+      // Key to the amount of data we have, so this is what happens:
+      // 1. Page initial render without data, which renders the loading page.
+      // 2. Loading finishes, and we have data. The key changes, so rerender the component.
+      // 3. Later on, user disabled link. Since the length of data does not change, the whole
+      // component is not rerendered. This is good - if the whole component was rerendered, then the
+      // animation would go away sicne it would transition abruptly from one state to another.
+      // (ie, try keying off `props.links.loading`, then enable / disable a link. You will see what
+      // I mean)
+      key={props.links.data.length}
+      initialLinkState={props.link}
+      linkError={props.links.error}
+    />;
   } else {
-    return <LinkLoading />;
+    return <LinkDetail
+      // (See above explaination for the key)
+      key={props.links.data.length}
+      loading={true}
+      initialLinkState={props.link}
+    />;
   }
 });

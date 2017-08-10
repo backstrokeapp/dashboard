@@ -30,9 +30,7 @@ export function LinkList({
 
   if (links.error) {
     body = <LinkError error={links.error} />;
-  } else if (links.loading) {
-    body = <LinkLoading />;
-  } else if (links.data.length === 0) {
+  } else if (links.data.length === 0 && !links.loading) {
     body = <ul className="link-list">
       <li className="link-list-item-empty">
         <p>You haven't created any links.</p>
@@ -45,28 +43,32 @@ export function LinkList({
       </li>
     </ul>
   } else {
-    body = <ul className="link-list">
-      {links.data.map(link => {
-        const themeColor = ch.hex(link.name);
+    body = <div className="link-list-container">
+      {links.loading ? <LinkLoading /> : null}
 
-        return <li
-          className="link-list-item"
-          key={link.id}
-          style={{backgroundColor: link.enabled ? themeColor : null}}
-        >
-          <div className="link-list-item-header">
-            {link.name || "Untitled"}
-          </div>
-          <div className="link-list-item-switch">
-            <Switch checked={link.enabled} onChange={() => onEnableLink(link)} />
-            <div
-              className="link-list-item-edit"
-              onClick={() => onSelectLink(link.id)}
-            >Edit</div>
-          </div>
-        </li>;
-      })}
-    </ul>;
+      <ul className="link-list">
+        {links.data.map(link => {
+          const themeColor = ch.hex(link.name);
+
+          return <li
+            className="link-list-item"
+            key={link.id}
+            style={{backgroundColor: link.enabled ? themeColor : null}}
+          >
+            <div className="link-list-item-header">
+              {link.name || "Untitled"}
+            </div>
+            <div className="link-list-item-switch">
+              <Switch checked={link.enabled} onChange={() => onEnableLink(link)} />
+              <div
+                className="link-list-item-edit"
+                onClick={() => onSelectLink(link.id)}
+              >Edit</div>
+            </div>
+          </li>;
+        })}
+      </ul>
+    </div>
   }
 
   return <div className="link-list-container">
