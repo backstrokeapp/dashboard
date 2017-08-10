@@ -1,0 +1,28 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:6.11
+        environment:
+          REACT_APP_APP_URL: https://app.backstroke.us
+          REACT_APP_API_URL: https://api.backstroke.us
+          REACT_APP_ROOT_URL: https://backstroke.us
+
+    steps:
+      - checkout
+      - run:
+          name: "Install dependencies"
+          command: yarn
+      - run:
+          name: "Make a build"
+          command: yarn build
+      - run:
+          name: "Push to server"
+          command: |
+            sudo npm i -g surge
+            if [ "$CIRCLE_BRANCH" == "master" ]; then
+              surge --project ./build --domain app.backstroke.us
+            else
+              surge --project ./build --domain app-backstroke-$CIRCLE_BRANCH.surge.sh
+            fi
