@@ -24,8 +24,7 @@ deployment:
     branch: master
     commands:
       - npm i -g surge
-      - echo app.backstroke.us > ./build/CNAME
-      - surge --project ./build --domain app-backstroke.surge.sh
+      - surge --project ./build app.backstroke.us
 
   staging:
     branch: /.*/
