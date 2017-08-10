@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './styles.css';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 
 import ColorHash from 'color-hash';
 
@@ -9,7 +10,6 @@ import collectionLinksCreate from '../../actions/collection/links/create';
 
 import Switch from '../toggle-switch/index';
 import LinkError from '../link-error/index';
-import LinkLoading from '../link-loading/index';
 import Button from '../button/index';
 
 import { API_URL } from '../../constants';
@@ -44,14 +44,15 @@ export function LinkList({
     </ul>
   } else {
     body = <div className="link-list-container">
-      {links.loading ? <LinkLoading /> : null}
-
       <ul className="link-list">
         {links.data.map(link => {
           const themeColor = ch.hex(link.name);
 
           return <li
-            className="link-list-item"
+            className={classnames(
+              'link-list-item',
+              links.loading && links.loadingSection === link.id ? 'link-list-item-loading' : null
+            )}
             key={link.id}
             style={{backgroundColor: link.enabled ? themeColor : null}}
           >

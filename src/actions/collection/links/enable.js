@@ -7,7 +7,7 @@ export default function collectionLinksEnable(link) {
   const desiredEnabledState = !link.enabled;
   return async dispatch => {
     // Starting an async operation.
-    dispatch(collectionLinksStartLoading());
+    dispatch(collectionLinksStartLoading(link.id));
 
     try {
       const resp = await fetch(`${API_URL}/v1/links/${link.id}/enable`, {

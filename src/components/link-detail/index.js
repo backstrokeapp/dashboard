@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 
 import Switch from '../toggle-switch/index';
 import LinkError from '../link-error/index';
-import LinkLoading from '../link-loading/index';
 import Button from '../button/index';
 
 import collectionLinksEnable from '../../actions/collection/links/enable';
@@ -164,9 +163,11 @@ export class LinkDetail extends React.Component {
     return <div>
       {/* report any errors */}
       <LinkError error={this.props.linkError} />
-      {this.props.loading ? <LinkLoading /> : null}
 
-      <div className="link-detail" style={{backgroundColor: link.enabled ? this.state.themeColor : null}}>
+      <div
+        className={classnames('link-detail', this.props.loading ? 'link-detail-loading' : null)}
+        style={{backgroundColor: link.enabled ? this.state.themeColor : null}}
+      >
         <textarea
           onChange={e => {
             this.setState({linkName: e.target.value});

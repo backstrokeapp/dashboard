@@ -10,6 +10,7 @@ import { ROUTE_TRANSITION_LINK_LIST } from '../../actions/route-transition/link-
 const initialState = {
   selected: null,
   loading: true,
+  loadingSection: null,
   data: [],
   error: null,
   page: 0,
@@ -23,7 +24,7 @@ export default function links(state=initialState, action) {
   case ROUTE_TRANSITION_LINK_LIST:
     return {...state, error: null};
   case COLLECTION_LINKS_START_LOADING:
-    return {...state, loading: true};
+    return {...state, loading: true, loadingSection: action.item || 'whole-page'};
   case COLLECTION_LINKS_ERROR:
     return {...state, error: action.error};
 
@@ -41,6 +42,7 @@ export default function links(state=initialState, action) {
         return item;
       }),
       loading: false,
+      loadingSection: null,
       page: action.page || 0,
     };
   case COLLECTION_LINKS_PUSH:
@@ -48,6 +50,7 @@ export default function links(state=initialState, action) {
     return {
       ...state,
       loading: false,
+      loadingSection: null,
       data: state.data.map(item => {
         // Update any old items.
         if (action.item.id === item.id) {
@@ -64,6 +67,7 @@ export default function links(state=initialState, action) {
     return {
       ...state,
       loading: false,
+      loadingSection: null,
       data: state.data.filter(item => {
         return action.item.id !== item.id;
       }),
