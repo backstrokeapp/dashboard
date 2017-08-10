@@ -48,7 +48,7 @@ export default class EnvironmentSwitcher extends React.Component {
           return <li key={field.slug} className="environment-switcher-item">
             <label htmlFor={`environment-switcher-${field.slug}`}>{field.name}</label>
             <Select
-              value={this.state.values[field.slug]}
+              value={this.state.values[field.slug] || field.defaults[field.default]}
               onChange={e => this.setState({values: {...this.state.values, [field.slug]: e.value}})}
               options={Object.keys(field.defaults).map(f => ({
                 value: field.defaults[f],
