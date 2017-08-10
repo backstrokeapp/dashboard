@@ -14,6 +14,7 @@ import Button from '../button/index';
 
 import { API_URL } from '../../constants';
 
+import Logo from '../../images/Logo.png';
 import NoLinks from '../../images/No Links.png';
 
 const ch = new ColorHash();
@@ -43,40 +44,38 @@ export function LinkList({
       </li>
     </ul>
   } else {
-    body = <div className="link-list-container">
-      <ul className="link-list">
-        {links.data.map(link => {
-          const themeColor = ch.hex(link.name);
+    body = <ul className="link-list">
+      {links.data.map(link => {
+        const themeColor = ch.hex(link.name);
 
-          return <li
-            className={classnames(
-              'link-list-item',
-              links.loading && links.loadingSection === link.id ? 'link-list-item-loading' : null
-            )}
-            key={link.id}
-            style={{backgroundColor: link.enabled ? themeColor : null}}
-          >
-            <div className="link-list-item-header">
-              {link.name || "Untitled"}
-            </div>
-            <div className="link-list-item-switch">
-              <Switch checked={link.enabled} onChange={() => onEnableLink(link)} />
-              <div
-                className="link-list-item-edit"
-                onClick={() => onSelectLink(link.id)}
-              >Edit</div>
-            </div>
-          </li>;
-        })}
-      </ul>
-    </div>
+        return <li
+          className={classnames(
+            'link-list-item',
+            links.loading && links.loadingSection === link.id ? 'link-list-item-loading' : null
+          )}
+          key={link.id}
+          style={{backgroundColor: link.enabled ? themeColor : null}}
+        >
+          <div className="link-list-item-header">
+            {link.name || "Untitled"}
+          </div>
+          <div className="link-list-item-switch">
+            <Switch checked={link.enabled} onChange={() => onEnableLink(link)} />
+            <div
+              className="link-list-item-edit"
+              onClick={() => onSelectLink(link.id)}
+            >Edit</div>
+          </div>
+        </li>;
+      })}
+    </ul>;
   }
 
   return <div className="link-list-container">
     <img
       alt="Backstroke"
       className="link-list-logo"
-      src="/assets/img/logo.png"
+      src={Logo}
     />
 
   {links.data.length > 0 ? <div className="link-list-create-button-container">
