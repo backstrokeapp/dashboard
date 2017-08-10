@@ -26,6 +26,9 @@ export default function links(state=initialState, action) {
     return {...state, loading: true};
   case COLLECTION_LINKS_ERROR:
     return {...state, error: action.error};
+
+  // Collection operations:
+
   case COLLECTION_LINKS_SET:
     return {...state,
       data: action.data.map(item => {
@@ -44,6 +47,7 @@ export default function links(state=initialState, action) {
     const dataInState = state.data.find(item => action.item.id === item.id);
     return {
       ...state,
+      loading: false,
       data: state.data.map(item => {
         // Update any old items.
         if (action.item.id === item.id) {
@@ -59,6 +63,7 @@ export default function links(state=initialState, action) {
   case COLLECTION_LINKS_DELETE:
     return {
       ...state,
+      loading: false,
       data: state.data.filter(item => {
         return action.item.id !== item.id;
       }),
