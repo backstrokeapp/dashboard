@@ -13,6 +13,7 @@ import {Provider} from 'react-redux';
 import createRouter from '@density/conduit';
 import userSet from './actions/user/set';
 import collectionLinksError from './actions/collection/links/error';
+import routeTransitionLogin from './actions/route-transition/login';
 import routeTransitionLinkList from './actions/route-transition/link-list';
 import routeTransitionLinkDetail from './actions/route-transition/link-detail';
 
@@ -35,6 +36,7 @@ const store = createStore(reducer, {}, compose(
 
 // Add a router. This handles the transition between the list page and the detail page.
 const router = createRouter(store);
+router.addRoute('login', () => routeTransitionLogin());
 router.addRoute('links', () => routeTransitionLinkList());
 router.addRoute('links/:id', id => routeTransitionLinkDetail(id));
 
@@ -53,7 +55,8 @@ function ready() {
       // We don't want to listen for any error here, because if this call returns (for example) a 500,
       // then we'd redirect to /setup/login, which would redirect to this page again, causing an
       // infinite loop.
-      window.location.href = `${API_URL}/setup/login`;
+      // window.location.href = `${API_URL}/setup/login`;
+      window.location.hash = '#/login'
     } else {
       // An undefined error.
       store.dispatch(collectionLinksError(`Error fetching login state: ${resp.status}`));
