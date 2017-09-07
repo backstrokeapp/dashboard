@@ -22,7 +22,7 @@ jobs:
           command: |
             sudo npm i -g surge
             if [ "$CIRCLE_BRANCH" == "master" ]; then
-              surge --project ./build --domain app.backstroke.us
+              surge --project ./build --domain app.backstroke.co
             else
               surge --project ./build --domain app-backstroke-$CIRCLE_BRANCH.surge.sh
             fi
