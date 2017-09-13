@@ -90,7 +90,7 @@ export function LinkList({
     {body}
 
     <div className="link-list-footer">
-      <a className="logout" onClick={onLogout}>Logout 1egoman</a>
+      <a className="logout" onClick={onLogout}>Logout</a>
     </div>
   </div>;
 }
