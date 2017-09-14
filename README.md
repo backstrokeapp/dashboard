@@ -17,10 +17,10 @@ Backstroke links.
 4. To make a production build, run `yarn build`.
 
 ## Environment variables disambiguation
-- `REACT_APP_APP_URL`: The path to this project. In production, this is `https://app.backstroke.us`.
+- `REACT_APP_APP_URL`: The path to this project. In production, this is `https://app.backstroke.co`.
 - `REACT_APP_API_URL`: The path to the api that this project interacts with. In production, this is
-  `https://api.backstroke.us`.
-- `REACT_APP_ROOT_URL`: The path to the main site. In production, this is `https://backstroke.us`.
+  `https://api.backstroke.co`.
+- `REACT_APP_ROOT_URL`: The path to the main site. In production, this is `https://backstroke.co`.
 
 ## Environment switcher
 When developing, press bang-bang-grave-space in quick succession (bang = !, grave = \`). This opens
