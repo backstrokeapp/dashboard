@@ -1,0 +1,27 @@
+.login-confirmation {
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-confirmation-logo {
+  margin-top: 50px;
+  max-width: 300px;
+  display: inline-block;
+}
+
+.login-confirmation-description {
+  margin-top: 60px;
+  font-size: 24px;
+}
+
+.login-confirmation-detail {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.login-confirmation-detail a {
+  color: #68CFD9;
+}

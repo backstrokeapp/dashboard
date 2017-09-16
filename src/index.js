@@ -15,6 +15,7 @@ import userSet from './actions/user/set';
 import collectionLinksError from './actions/collection/links/error';
 import routeTransitionLinkList from './actions/route-transition/link-list';
 import routeTransitionLinkDetail from './actions/route-transition/link-detail';
+import routeTransitionLoginConfirmation from './actions/route-transition/login-confirmation';
 
 import { API_URL, setApiUrl } from './constants';
 
@@ -53,6 +54,7 @@ function ready() {
       // We don't want to listen for any error here, because if this call returns (for example) a 500,
       // then we'd redirect to /setup/login, which would redirect to this page again, causing an
       // infinite loop.
+      store.dispatch(routeTransitionLoginConfirmation());
       window.location.href = `${API_URL}/setup/login`;
     } else {
       // An undefined error.
