@@ -9,21 +9,19 @@ Backstroke links.
 
 # Development
 1. Yarn is used to manage dependencies - run `yarn` to download all dependencies of the dashboard. 
-2. [Biome](https://github.com/1egoman/biome) is used to manage environment variables for the
-   project. Run `biome` to set the contents of all variables, then run `biome use` to spawn a
-   subshell with the environment sourced. (If you'd rather not use biome, then set all the
-   environment variables in the `Biomefile` manually)
-3. Finally, run `yarn start` to start the development server.
-4. To make a production build, run `yarn build`.
+3. Run `yarn start` to start the development server, courtesy of [Create React App](https://github.com/facebookincubator/create-react-app).
+4. To make a production build, run `yarn build`. The build will be outputted into a `build/` folder
+   created in the root of the repo. Th make a clean build, remove the `build/` folder prior to
+   building.
+
+# Environment switcher
+When developing, press bang-bang-grave-space in quick succession (bang = !, grave = \`). This opens
+a small modal that lets the user choose an environment to point the system to (locally, production,
+staging, or something else). One option is the environment variable `REACT_APP_API_URL`. This
+setting persists in `localStorage` between page reloads.
 
 ## Environment variables disambiguation
 - `REACT_APP_APP_URL`: The path to this project. In production, this is `https://app.backstroke.co`.
 - `REACT_APP_API_URL`: The path to the api that this project interacts with. In production, this is
   `https://api.backstroke.co`.
 - `REACT_APP_ROOT_URL`: The path to the main site. In production, this is `https://backstroke.co`.
-
-## Environment switcher
-When developing, press bang-bang-grave-space in quick succession (bang = !, grave = \`). This opens
-a small modal that lets the user choose an environment to point the system to (locally, production,
-staging, or something else). One option is the environment variable above, `REACT_APP_API_URL`. This
-setting persists in `localStorage` between page reloads.
