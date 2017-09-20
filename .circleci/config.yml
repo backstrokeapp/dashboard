@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: "Install dependencies"
           command: yarn
@@ -26,3 +27,9 @@ jobs:
             else
               surge --project ./build --domain app-backstroke-$CIRCLE_BRANCH.surge.sh
             fi
+      - run:
+          name: "Build container"
+          command: docker build -t backstroke/dashboard:latest .
+      - run:
+          name: "Push container"
+          command: docker push backstroke/dashboard:latest
