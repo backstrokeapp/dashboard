@@ -219,7 +219,10 @@
 }
 .link-detail-box.owner { width: 0%; }
 .link-detail-box.repo { width: 0%; }
-.link-detail-box.branch { height: 72px; }
+.link-detail-box.branch {
+  height: 72px;
+  width: 100%;
+}
 
 
 .link-detail-save-button-container {
