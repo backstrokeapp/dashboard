@@ -6,6 +6,11 @@ import collectionLinksStartLoading from './start-loading';
 
 export default function resync(link) {
   return async dispatch => {
+    // Set initial state for resync operation.
+    dispatch(collectionLinksPush({
+      ...link,
+      lastWebhookSync: {status: 'SENDING'},
+    }));
     dispatch(collectionLinksStartLoading());
 
     try {
@@ -26,17 +31,19 @@ export default function resync(link) {
           return fetch(statusUrl).then(async resp => {
             if (resp.ok) {
               const response = await resp.json();
-              clearInterval(interval);
+
               dispatch(collectionLinksPush({
                 ...link,
-                lastWebhookSync: {
-                  status: 'COMPLETED',
-                  response,
-                },
+                lastWebhookSync: response,
               }));
+
+              if (response.status === 'OK') {
+                // Turn off the timer.
+                clearInterval(interval);
+              }
             }
           });
-        }, 2000);
+        }, 1000);
       } else {
         throw new Error(`Recived an error: ${resp.statusCode}`);
       }

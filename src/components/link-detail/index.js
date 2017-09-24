@@ -190,6 +190,30 @@ export class LinkDetail extends React.Component {
           >{link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED' ? 'Waiting...' : 'Resync'}</Button>
         </div>
 
+        {link.lastWebhookSync ? <div className="link-detail-sync-status">
+          {(function(link) {
+            switch (link.lastWebhookSync.status) {
+            case 'SENDING':
+              return <span>&#8987; Waiting for response from server...</span>
+            case 'TRIGGERED':
+              return <span>&#8987; Waiting for webhook to run...</span>
+            case 'RUNNING':
+              return <span>&#127939; Running link on worker...</span>;
+            case 'OK':
+              return <div>
+                <div>&#9989; Successfully synced link.</div>
+                <div>Started at: {link.lastWebhookSync.startedAt}</div>
+                <div>Finished at: {link.lastWebhookSync.finishedAt}</div>
+              </div>;
+            case 'ERROR':
+              return <div>
+                <div>&#10060; Error in syncing link.</div>
+                <div>{link.lastWebhookSync.output.error}</div>
+              </div>;
+            }
+          })(link)}
+        </div> : null}
+
         <div className="link-detail-repository to">
           <div className="link-detail-repository-header">
             <span className="link-detail-repository-header-title">Upstream</span>
