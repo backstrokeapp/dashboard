@@ -110,12 +110,27 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* The on-off switch is under the title and used for enabling / disabling the link. */
-.link-detail-switch {
+/*
+ * The link-detail row contains the on-off switch and refresh button
+ * The on-off switch is under the title and used for enabling / disabling the link.
+ * The refresh button will add a new link operation to the end of the queue.
+ */
+.link-detail-row {
+  display: flex;
   margin-left: 24px;
   margin-right: 24px;
   margin-top: 16px;
   margin-bottom: 16px;
+}
+.button.link-detail-refresh {
+  font-size: 16px;
+  margin-left: auto;
+  min-width: 110px;
+
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 /* A link has two repositories - one to pull changes from and one to push changes to. */

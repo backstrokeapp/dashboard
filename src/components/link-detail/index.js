@@ -13,6 +13,7 @@ import Button from '../button/index';
 import collectionLinksEnable from '../../actions/collection/links/enable';
 import collectionLinksSave from '../../actions/collection/links/save';
 import collectionLinksDelete from '../../actions/collection/links/delete';
+import colelctionLinksResync from '../../actions/collection/links/resync';
 
 import { API_URL } from '../../constants';
 
@@ -177,11 +178,16 @@ export class LinkDetail extends React.Component {
           placeholder="Link name"
           value={this.state.linkName}
         />
-        <div className="link-detail-switch">
+        <div className="link-detail-row">
           <Switch
             checked={link.enabled}
             onChange={() => this.props.onEnableLink(link)}
           />
+          <Button
+            className="link-detail-refresh"
+            onClick={() => ((link.lastWebhookSync && link.lastWebhookSync.status !== 'TRIGGERED') || !link.lastWebhookSync) && this.props.onResyncLink(link)}
+            disabled={link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED'}
+          >{link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED' ? 'Waiting...' : 'Resync'}</Button>
         </div>
 
         <div className="link-detail-repository to">
@@ -336,6 +342,9 @@ export default connect(state => {
           window.location.hash = '#/links';
         });
       }
+    },
+    onResyncLink(link) {
+      dispatch(colelctionLinksResync(link));
     },
   };
 })(function(props) {
