@@ -134,6 +134,8 @@
 }
 
 .link-detail-sync-status {
+  position: relative;
+
   background-color: #333;
   color: #fff;
   padding-top: 16px;
@@ -143,6 +145,19 @@
 
   line-height: 32px;
 }
+.link-detail-sync-status-icon {
+  margin-right: 10px;
+}
+.link-detail-sync-status-close {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  font-size: 24px;
+
+  user-select: none;
+  cursor: pointer;
+}
+.link-detail-sync-status-close:active { opacity: 0.5; }
 
 /* A link has two repositories - one to pull changes from and one to push changes to. */
 .link-detail-repository {

@@ -13,7 +13,8 @@ import Button from '../button/index';
 import collectionLinksEnable from '../../actions/collection/links/enable';
 import collectionLinksSave from '../../actions/collection/links/save';
 import collectionLinksDelete from '../../actions/collection/links/delete';
-import colelctionLinksResync from '../../actions/collection/links/resync';
+import collectionLinksResync from '../../actions/collection/links/resync';
+import collectionLinksHideSyncStatus from '../../actions/collection/links/hide-sync-status';
 
 import { API_URL } from '../../constants';
 
@@ -191,25 +192,47 @@ export class LinkDetail extends React.Component {
         </div>
 
         {link.lastWebhookSync ? <div className="link-detail-sync-status">
+          <div
+            className="link-detail-sync-status-close"
+            onClick={() => this.props.onHideLinkSyncStatus(link)}
+          >&times;</div>
+
           {(function(link) {
             switch (link.lastWebhookSync.status) {
             case 'SENDING':
-              return <span>&#8987; Waiting for response from server...</span>
+              return <span>
+                <span className="link-detail-sync-status-icon" role="img" aria-label="Success">&#8987;</span>
+                Waiting for response from server...
+              </span>;
             case 'TRIGGERED':
-              return <span>&#8987; Waiting for webhook to run...</span>
+              return <span>
+                <span className="link-detail-sync-status-icon" role="img" aria-label="Success">&#8987;</span>
+                Waiting for webhook to run...
+              </span>;
             case 'RUNNING':
-              return <span>&#127939; Running link on worker...</span>;
+              return <span>
+                <span className="link-detail-sync-status-icon" role="img" aria-label="Success">&#127939;</span>
+                Running link on worker...
+              </span>;
             case 'OK':
               return <div>
-                <div>&#9989; Successfully synced link.</div>
-                <div>Started at: {link.lastWebhookSync.startedAt}</div>
+                <div>
+                  <span className="link-detail-sync-status-icon" role="img" aria-label="Success">&#9989;</span>
+                  Successfully synced link.
+                </div>
+                <div>Started at: <span>{link.lastWebhookSync.startedAt}</span></div>
                 <div>Finished at: {link.lastWebhookSync.finishedAt}</div>
               </div>;
             case 'ERROR':
               return <div>
-                <div>&#10060; Error in syncing link.</div>
+                <div>
+                  <span className="link-detail-sync-status-icon" role="img" aria-label="Success">&#10060;</span>
+                  Error in syncing link.
+                </div>
                 <div>{link.lastWebhookSync.output.error}</div>
               </div>;
+            default:
+              return <span>Unknown status {link.lastWebhookSync.status}</span>
             }
           })(link)}
         </div> : null}
@@ -368,7 +391,10 @@ export default connect(state => {
       }
     },
     onResyncLink(link) {
-      dispatch(colelctionLinksResync(link));
+      dispatch(collectionLinksResync(link));
+    },
+    onHideLinkSyncStatus(link) {
+      dispatch(collectionLinksHideSyncStatus(link));
     },
   };
 })(function(props) {
