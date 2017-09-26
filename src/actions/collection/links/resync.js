@@ -37,7 +37,7 @@ export default function resync(link) {
                 lastWebhookSync: response,
               }));
 
-              if (response.status === 'OK') {
+              if (response.status === 'OK' || response.status === 'ERROR') {
                 // Turn off the timer.
                 clearInterval(interval);
               }
