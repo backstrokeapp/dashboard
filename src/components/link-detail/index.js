@@ -186,8 +186,14 @@ export class LinkDetail extends React.Component {
           />
           <Button
             className="link-detail-refresh"
-            onClick={() => ((link.lastWebhookSync && link.lastWebhookSync.status !== 'TRIGGERED') || !link.lastWebhookSync) && this.props.onResyncLink(link)}
-            disabled={!link.webhook || (link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED')}
+            onClick={() => {
+              const linkWasTriggeredButResponseIsPending = link.lastWebhookSync && link.lastWebhookSync.status !== 'TRIGGERED';
+              const noWebhookSynced = !link.lastWebhookSync;
+              if ((linkWasTriggeredButResponseIsPending || noWebhookSynced) && link.enabled) {
+                this.props.onResyncLink(link)
+              }
+            }}
+            disabled={link.enabled === false || (link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED')}
           >{link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED' ? 'Waiting...' : 'Resync'}</Button>
         </div>
 
