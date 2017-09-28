@@ -187,10 +187,11 @@ export class LinkDetail extends React.Component {
           <Button
             className="link-detail-refresh"
             onClick={() => ((link.lastWebhookSync && link.lastWebhookSync.status !== 'TRIGGERED') || !link.lastWebhookSync) && this.props.onResyncLink(link)}
-            disabled={link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED'}
+            disabled={!link.webhook || (link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED')}
           >{link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED' ? 'Waiting...' : 'Resync'}</Button>
         </div>
 
+        {/* If a syncing operation is going on, show the status info in the view */}
         {link.lastWebhookSync ? <div className="link-detail-sync-status">
           <div
             className="link-detail-sync-status-close"
