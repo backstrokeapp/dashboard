@@ -8,7 +8,7 @@ export default function LinkError({error}) {
       {error}
 
       {/* Add link to login page if the error has to do with that. */}
-      {error && error.indexOf('authenticated') ? <a href={`${API_URL}/setup/login`}>Login</a> : null}
+      {error && error.indexOf('authenticated') >= 0 ? <a href={`${API_URL}/setup/login`}>Login</a> : null}
     </div>
   </div>;
 }
