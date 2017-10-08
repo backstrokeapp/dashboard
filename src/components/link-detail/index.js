@@ -6,6 +6,8 @@ import classnames from 'classnames';
 
 import { connect } from 'react-redux';
 
+import TimeAgo from 'react-timeago';
+
 import Switch from '../toggle-switch/index';
 import LinkError from '../link-error/index';
 import Button from '../button/index';
@@ -199,7 +201,7 @@ export class LinkDetail extends React.Component {
 
         { link.lastSyncedAt ?
         <div className="link-detail-row">
-          <span className="link-detail-last-sync-time">Synced { link.lastSyncedAt }</span>
+          <span className="link-detail-last-sync-time">Synced <TimeAgo date={ link.lastSyncedAt } /></span>
         </div>
         : null }
         {/* If a syncing operation is going on, show the status info in the view */}
