@@ -302,3 +302,8 @@
   display: inline-block;
   color: #de3535;
 }
+
+.link-detail-last-sync-time {
+  font-size: 14px;
+  color: #eeeeee;
+}
