@@ -302,3 +302,9 @@
   display: inline-block;
   color: #de3535;
 }
+
+.link-detail-last-sync-time {
+  flex-direction: column;
+  align-items: flex-end;
+  color: #ffffff;
+}
