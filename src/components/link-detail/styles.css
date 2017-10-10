@@ -308,3 +308,11 @@
   align-items: flex-end;
   color: #ffffff;
 }
+
+.refresh-button {
+  margin-left: 8px;
+}
+
+.refresh-button:hover {
+  cursor: pointer;
+}
