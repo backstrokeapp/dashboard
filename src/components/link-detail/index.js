@@ -199,9 +199,10 @@ export class LinkDetail extends React.Component {
           >{link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED' ? 'Waiting...' : 'Resync'}</Button>
         </div>
 
-        {link.lastSyncedAt ? <div className="link-detail-row link-detail-last-sync-time">
+        {link.enabled && link.lastSyncedAt ? <div className="link-detail-row link-detail-last-sync-time">
           <span>Last synced: <TimeAgo date={ link.lastSyncedAt } /></span>
         </div> : null}
+
         {/* If a syncing operation is going on, show the status info in the view */}
         {link.lastWebhookSync ? <div className="link-detail-sync-status">
           <div
