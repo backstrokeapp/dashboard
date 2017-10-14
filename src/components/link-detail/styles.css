@@ -304,15 +304,16 @@
 }
 
 .link-detail-last-sync-time {
-  flex-direction: column;
+  justify-content: flex-end;
   align-items: flex-end;
   color: #ffffff;
 }
 
-.refresh-button {
+.link-detail-refresh-button {
   margin-left: 8px;
+  width: 3%;
 }
 
-.refresh-button:hover {
+.link-detail-refresh-button:hover {
   cursor: pointer;
 }

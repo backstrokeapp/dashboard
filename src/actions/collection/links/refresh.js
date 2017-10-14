@@ -1,10 +1,12 @@
 import collectionLinksError from './error';
 import collectionLinksPush from './push';
 
+import { API_URL } from '../../../constants';
+
 export default function refresh(id) {
   return async dispatch => {
     try {
-      const resp = await fetch(`${process.env.BACKSTROKE_SERVER}/v1/links/${id}`)
+      const resp = await fetch(`${API_URL}/v1/links/${id}`, {credentials: 'include'});
 
       if (resp.ok) {
         const data = await resp.json()

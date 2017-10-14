@@ -19,6 +19,8 @@ import collectionLinksResync from '../../actions/collection/links/resync';
 import collectionLinksHideSyncStatus from '../../actions/collection/links/hide-sync-status';
 import collectionLinksRefresh from '../../actions/collection/links/refresh';
 
+import RefreshIcon from '../../images/Refresh Icon.png';
+
 import { API_URL } from '../../constants';
 
 const ch = new ColorHash();
@@ -202,9 +204,12 @@ export class LinkDetail extends React.Component {
 
         {link.enabled && link.lastSyncedAt ?
           <div className="link-detail-row link-detail-last-sync-time">
-            <span>Last synced: <TimeAgo date={ link.lastSyncedAt } />
-              <span className="refresh-button" onClick={() => {this.props.onRefreshSync(link.id)}}>&#10227;</span>
-            </span>
+            <span>Last synced: <TimeAgo date={ link.lastSyncedAt } /></span>
+              <img
+                className="link-detail-refresh-button"
+                onClick={() => {this.props.onRefreshSync(link.id)}}
+                src={RefreshIcon}
+              />
           </div> : null
         }
 
@@ -415,7 +420,7 @@ export default connect(state => {
       dispatch(collectionLinksHideSyncStatus(link));
     },
     onRefreshSync(id) {
-      dispatch(collectionLinksRefresh(id))
+      dispatch(collectionLinksRefresh(id));
     },
   };
 })(function(props) {
