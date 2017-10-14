@@ -17,6 +17,9 @@ import collectionLinksSave from '../../actions/collection/links/save';
 import collectionLinksDelete from '../../actions/collection/links/delete';
 import collectionLinksResync from '../../actions/collection/links/resync';
 import collectionLinksHideSyncStatus from '../../actions/collection/links/hide-sync-status';
+import collectionLinksRefresh from '../../actions/collection/links/refresh';
+
+import RefreshIcon from '../../images/Refresh Icon.png';
 
 import { API_URL } from '../../constants';
 
@@ -199,9 +202,16 @@ export class LinkDetail extends React.Component {
           >{link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED' ? 'Waiting...' : 'Resync'}</Button>
         </div>
 
-        {link.enabled && link.lastSyncedAt ? <div className="link-detail-row link-detail-last-sync-time">
-          <span>Last synced: <TimeAgo date={ link.lastSyncedAt } /></span>
-        </div> : null}
+        {link.enabled && link.lastSyncedAt ?
+          <div className="link-detail-row link-detail-last-sync-time">
+            <span>Last synced: <TimeAgo date={ link.lastSyncedAt } /></span>
+              <img
+                className="link-detail-refresh-button"
+                onClick={() => {this.props.onRefreshSync(link.id)}}
+                src={RefreshIcon}
+              />
+          </div> : null
+        }
 
         {/* If a syncing operation is going on, show the status info in the view */}
         {link.lastWebhookSync ? <div className="link-detail-sync-status">
@@ -408,6 +418,9 @@ export default connect(state => {
     },
     onHideLinkSyncStatus(link) {
       dispatch(collectionLinksHideSyncStatus(link));
+    },
+    onRefreshSync(id) {
+      dispatch(collectionLinksRefresh(id));
     },
   };
 })(function(props) {
