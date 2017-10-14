@@ -205,11 +205,13 @@ export class LinkDetail extends React.Component {
         {link.enabled && link.lastSyncedAt ?
           <div className="link-detail-row link-detail-last-sync-time">
             <span>Last synced: <TimeAgo date={ link.lastSyncedAt } /></span>
-              <img
-                className="link-detail-refresh-button"
-                onClick={() => {this.props.onRefreshSync(link.id)}}
-                src={RefreshIcon}
-              />
+            <img
+              className="link-detail-refresh-button"
+              onClick={() => {this.props.onRefreshSync(link.id)}}
+              src={RefreshIcon}
+              alt="Refresh last synced time"
+              title="Refresh last synced time"
+            />
           </div> : null
         }
 
