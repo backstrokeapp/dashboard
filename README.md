@@ -25,3 +25,4 @@ setting persists in `localStorage` between page reloads.
 - `REACT_APP_API_URL`: The path to the api that this project interacts with. In production, this is
   `https://api.backstroke.co`.
 - `REACT_APP_ROOT_URL`: The path to the main site. In production, this is `https://backstroke.co`.
+- `REACT_APP_MIXPANEL_TOKEN`: An optonal mixpanel token to use for tracking dashboard usage.

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import App from './components/app/index';
 import EnvironmentSwitcher from './components/environment-switcher/index';
+import mixpanel from 'mixpanel-browser';
 
 import './styles.css';
 
@@ -40,6 +41,12 @@ router.addRoute('links', () => routeTransitionLinkList());
 router.addRoute('links/:id', id => routeTransitionLinkDetail(id));
 
 
+// Initialize analytics
+if (process.env.REACT_APP_MIXPANEL_TOKEN) {
+  mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN);
+  mixpanel.track('Dashboard view');
+}
+
 function ready() {
   // Kick off a request to get the currently logged in user.
   fetch(`${API_URL}/v1/whoami`, {
@@ -47,6 +54,12 @@ function ready() {
   }).then(resp => {
     if (resp.ok) {
       return resp.json().then(data => {
+        // Store analytics for a given user
+        if (process.env.REACT_APP_MIXPANEL_TOKEN) {
+          mixpanel.identify(data.id);
+          mixpanel.alias(data.id);
+        }
+
         store.dispatch(userSet(data));
       });
     } else if (resp.status === 401 || resp.status === 403) {

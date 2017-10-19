@@ -8,6 +8,7 @@
     "classnames": "^2.2.5",
     "color-hash": "^1.0.3",
     "lodash.debounce": "^4.0.8",
+    "mixpanel-browser": "^2.13.0",
     "normalize.css": "^7.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
