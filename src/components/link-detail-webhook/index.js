@@ -23,7 +23,7 @@ export default class LinkDetailWebhook extends React.Component {
         <p>
           Backstroke syncs your links every 10 minutes automatically. However, if you'd like to
           sync your links more often or you'd like to sync them on demand, you can make a
-          HTTP POST request to this special url below to enqueue a manual link update.
+          HTTP request to this special url below to enqueue a manual link update.
         </p>
         <pre>https://api.backstroke.co/_{link.webhook}</pre>
       </div>
