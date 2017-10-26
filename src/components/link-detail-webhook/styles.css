@@ -1,0 +1,42 @@
+.link-detail-webhook-header {
+  height: 32px;
+  line-height: 30px;
+  display: flex;
+  user-select: none;
+
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+
+  cursor: pointer;
+}
+.link-detail-webhook-header.open {
+  background-color: #333;
+}
+.link-detail-webhook-header-arrow {
+  margin-left: auto;
+  transform: rotate(180deg);
+}
+.open .link-detail-webhook-header-arrow { transform: rotate(90deg); }
+
+.link-detail-webhook-body {
+  display: none;
+  color: #fff;
+  background-color: #444;
+  line-height: 24px;
+  font-size: 16px;
+
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.link-detail-webhook pre {
+  font-size: 12px;
+  color: #fff;
+}
+
+.link-detail-webhook-body.open { display: block; }

@@ -11,6 +11,7 @@ import TimeAgo from 'react-timeago';
 import Switch from '../toggle-switch/index';
 import LinkError from '../link-error/index';
 import Button from '../button/index';
+import LinkDetailWebhook from '../link-detail-webhook/index';
 
 import collectionLinksEnable from '../../actions/collection/links/enable';
 import collectionLinksSave from '../../actions/collection/links/save';
@@ -374,6 +375,9 @@ export class LinkDetail extends React.Component {
             </div> : null}
           </div>
         </div>
+
+        {/* Render a dropdown that shows the webhook url inside */}
+        <LinkDetailWebhook link={link} />
 
         <div className="link-detail-save-button-container">
           <Button
