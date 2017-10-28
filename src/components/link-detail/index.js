@@ -276,8 +276,9 @@ export class LinkDetail extends React.Component {
                 value={this.state.upstreamOwner}
                 onChange={e => {
                   // Remove the `github.com`, if the user pasted a full GitHub link
-                  if (e.target.value.indexOf('github.com/') < e.target.value.length) {
-                    e.target.value = e.target.value.replace(new RegExp(".*github\\.com\\/", "mg"), "");
+                  var githubMatchExpression = new RegExp("https?:\\/\\/github\\.com\\/", "")
+                  if (e.target.value.search(githubMatchExpression) > -1) {
+                    e.target.value = e.target.value.replace(githubMatchExpression, "");
                   }
                   // If a string like "abc/def" is pasted into the textbox, then properly split it
                   // into the two boxes.
@@ -356,8 +357,9 @@ export class LinkDetail extends React.Component {
                   value={this.state.forkOwner}
                   onChange={e => {
                     // Remove the `github.com`, if the user pasted a full GitHub link
-                    if (e.target.value.indexOf('github.com/') < e.target.value.length) {
-                      e.target.value = e.target.value.replace(new RegExp(".*github\\.com\\/", "mg"), "");
+                    var githubMatchExpression = new RegExp("https?:\\/\\/github\\.com\\/", "")
+                    if (e.target.value.search(githubMatchExpression) > -1) {
+                      e.target.value = e.target.value.replace(githubMatchExpression, "");
                     }
                     // If a string like "abc/def" is pasted into the textbox, then properly split it
                     // into the two boxes.
