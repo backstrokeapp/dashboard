@@ -355,6 +355,10 @@ export class LinkDetail extends React.Component {
                   placeholder="username"
                   value={this.state.forkOwner}
                   onChange={e => {
+                    // Remove the `github.com`, if the user pasted a full GitHub link
+                    if (e.target.value.indexOf('github.com/') < e.target.value.length) {
+                      e.target.value = e.target.value.replace(new RegExp(".*github\\.com\\/", "mg"), "");
+                    }
                     // If a string like "abc/def" is pasted into the textbox, then properly split it
                     // into the two boxes.
                     if (e.target.value.indexOf('/') < e.target.value.length) {
