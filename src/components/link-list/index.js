@@ -19,6 +19,23 @@ import NoLinks from '../../images/No Links.png';
 
 const ch = new ColorHash();
 
+// When passed a link, return the width that the given link item should be on the dashboard.
+// This function is resiliant to links that may not have been completely created yet or falsey
+// values.
+function getLinkItemWidth(link) {
+  if (!link || !link.name) {
+    return null;
+  } else {
+    if (link.name.length > 32) {
+      return 3;
+    } else if (link.name.length > 16) {
+      return 2;
+    } else {
+      return 1;
+    }
+  }
+}
+
 export function LinkList({
   links,
 
@@ -49,10 +66,14 @@ export function LinkList({
         const themeColor = ch.hex(link.name);
 
         return <li
-          className={classnames(
-            'link-list-item',
-            links.loading && links.loadingSection === link.id ? 'link-list-item-loading' : null
-          )}
+          className={classnames({
+            'link-list-item': true,
+            'link-list-item-loading': links.loading && links.loadingSection === link.id,
+            // If name is 16-32 characters wide, make the cell double width.
+            'link-list-item-double-width': getLinkItemWidth(link) === 2,
+            // If name is over 32 characters wide, make the cell triple width.
+            'link-list-item-triple-width': getLinkItemWidth(link) === 3,
+          })}
           key={link.id}
           style={{backgroundColor: link.enabled ? themeColor : null}}
         >

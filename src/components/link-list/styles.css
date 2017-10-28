@@ -67,6 +67,16 @@
   bottom: 0px;
 }
 
+/* Long-titled cards get wider as their titles increase in width */
+.link-list-item-double-width {
+  width: 100%;
+  max-width: 558px; /* (272px * 2) + 16px padding */
+}
+.link-list-item-triple-width {
+  width: 100%;
+  max-width: 848px; /* (272px * 3) + 24px padding */
+}
+
 /* The link list loading indicator is shown when a card within the link list is in a loading state.
  * It's componsed of a :before spinner element that is visible in each card's switch. When the
  * switch is off, the spinner is light gray, and when the switch is on, the spinner is darker gray
@@ -133,11 +143,13 @@
   margin-bottom: 32px;
   position: absolute;
   bottom: 0px;
+  width: calc(100% - (2 * 24px));
 }
 .link-list-item-edit {
   margin-top: 8px;
+  margin-left: auto;
+  margin-right: 16px;
   font-size: 24px;
-  margin-left: 36px;
   color: #fff;
   font-weight: bold;
   cursor: pointer;
