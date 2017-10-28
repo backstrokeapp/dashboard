@@ -274,8 +274,19 @@ export class LinkDetail extends React.Component {
                 placeholder="username"
                 value={this.state.upstreamOwner}
                 onChange={e => {
-                  this.setState({upstreamOwner: e.target.value})
-                  this.fetchBranches('upstream');
+                  // If a string like "abc/def" is pasted into the textbox, then properly split it
+                  // into the two boxes.
+                  if (e.target.value.indexOf('/') < e.target.value.length) {
+                    const parts = e.target.value.split('/');
+                    this.setState({
+                      upstreamOwner: parts[0],
+                      upstreamRepo: parts[1],
+                    });
+                    this.fetchBranches('upstream');
+                  } else {
+                    this.setState({upstreamOwner: e.target.value})
+                    this.fetchBranches('upstream');
+                  }
                 }}
                 onKeyDown={e => {
                   // Skip to repo box when slash is pressed.
@@ -339,8 +350,19 @@ export class LinkDetail extends React.Component {
                   placeholder="username"
                   value={this.state.forkOwner}
                   onChange={e => {
-                    this.setState({forkOwner: e.target.value})
-                    this.fetchBranches('fork');
+                    // If a string like "abc/def" is pasted into the textbox, then properly split it
+                    // into the two boxes.
+                    if (e.target.value.indexOf('/') < e.target.value.length) {
+                      const parts = e.target.value.split('/');
+                      this.setState({
+                        forkOwner: parts[0],
+                        forkRepo: parts[1],
+                      });
+                      this.fetchBranches('fork');
+                    } else {
+                      this.setState({forkOwner: e.target.value});
+                      this.fetchBranches('fork');
+                    }
                   }}
                   onKeyDown={e => {
                     // Skip to repo box when slash is pressed.
