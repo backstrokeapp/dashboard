@@ -134,6 +134,8 @@
   margin-bottom: 108px;
   padding-right: 24px;
   padding-left: 24px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 .link-list-item-switch {
   display: flex;
