@@ -135,7 +135,7 @@
   padding-right: 24px;
   padding-left: 24px;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 .link-list-item-switch {
   display: flex;
