@@ -51,6 +51,7 @@ if (process.env.REACT_APP_MIXPANEL_TOKEN) {
 // Initialze error reporting
 if (process.env.REACT_APP_SENTRY_DSN) {
   Raven.config(process.env.REACT_APP_SENTRY_DSN).install();
+  window.onerror = e => Raven.captureException(e)
 }
 
 function ready() {
