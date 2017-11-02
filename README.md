@@ -26,3 +26,4 @@ setting persists in `localStorage` between page reloads.
   `https://api.backstroke.co`.
 - `REACT_APP_ROOT_URL`: The path to the main site. In production, this is `https://backstroke.co`.
 - `REACT_APP_MIXPANEL_TOKEN`: An optonal mixpanel token to use for tracking dashboard usage.
+- `REACT_APP_SENTRY_DSN`: An optonal sentry DSN to use when reporting errors.
