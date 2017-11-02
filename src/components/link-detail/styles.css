@@ -85,6 +85,15 @@
   right: 0px;
 }
 
+/* The link detail empty state is visible when a link is loading for the first time or cannot be
+ * found. */
+.link-detail-empty {
+  text-align: center;
+  margin-top: 100px;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+}
+
 /* The link detail card title--a textbox--is rendered at the top of the link detail card and used to
  * change the name of the link the detail card represents. */
 .link-detail-title {
