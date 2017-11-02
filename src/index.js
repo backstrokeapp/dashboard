@@ -4,6 +4,7 @@ import registerServiceWorker from './registerServiceWorker';
 import App from './components/app/index';
 import EnvironmentSwitcher from './components/environment-switcher/index';
 import mixpanel from 'mixpanel-browser';
+import Raven from 'raven-js';
 
 import './styles.css';
 
@@ -45,6 +46,11 @@ router.addRoute('links/:id', id => routeTransitionLinkDetail(id));
 if (process.env.REACT_APP_MIXPANEL_TOKEN) {
   mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN);
   mixpanel.track('Dashboard view');
+}
+
+// Initialze error reporting
+if (process.env.REACT_APP_SENTRY_DSN) {
+  Raven.config(process.env.REACT_APP_SENTRY_DSN).install();
 }
 
 function ready() {
