@@ -186,9 +186,16 @@ export class LinkDetail extends React.Component {
         props: this.props,
         state: this.state,
       });
-      return <div className="link-detail-empty">
-        No such link was found.
-      </div>;
+
+      if (this.props.loading) {
+        return <div className="link-detail-empty">
+          Loading link...
+        </div>;
+      } else {
+        return <div className="link-detail-empty">
+          No such link was found.
+        </div>;
+      }
     }
 
     return <div>
