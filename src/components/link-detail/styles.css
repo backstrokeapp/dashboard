@@ -203,7 +203,12 @@
 .link-detail-repository-edit-row-fork-choices {
   margin-bottom: 16px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+@media (min-width: 450px) {
+  .link-detail-repository-edit-row-fork-choices {
+    flex-direction: row;
+  }
 }
 
 /* Style the radiobuttons */
