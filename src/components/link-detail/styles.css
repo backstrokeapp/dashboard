@@ -200,8 +200,10 @@
 
 /* The fork repo first contains two radiobuttons to pick whether the fork should be a specific
  * fork or all forks of a repo. */
-.link-detail-repository-edit-row-fork-radios {
+.link-detail-repository-edit-row-fork-choices {
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
 }
 
 /* Style the radiobuttons */

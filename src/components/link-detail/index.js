@@ -13,6 +13,7 @@ import Switch from '../toggle-switch/index';
 import LinkError from '../link-error/index';
 import Button from '../button/index';
 import LinkDetailWebhook from '../link-detail-webhook/index';
+import LinkDetailForkChoice, { ALL_FORKS_ICON, ONE_FORK_ICON, UNRELATED_ICON } from '../link-detail-fork-choice/index';
 
 import collectionLinksEnable from '../../actions/collection/links/enable';
 import collectionLinksSave from '../../actions/collection/links/save';
@@ -357,23 +358,25 @@ export class LinkDetail extends React.Component {
             <span className="link-detail-repository-header-error">{this.state.forkError}</span>
           </div>
           <div className="link-detail-repository-edit">
-            <div className="link-detail-repository-edit-row-fork-radios">
-              <input
-                type="radio"
-                id="fork-all"
-                className="link-detail-repository-radio"
-                checked={this.state.forkType === 'fork-all'}
-                onChange={() => this.setState({forkType: 'fork-all'})}
+            <div className="link-detail-repository-edit-row-fork-choices">
+              <LinkDetailForkChoice
+                icon={ALL_FORKS_ICON}
+                label="All Forks"
+                active={this.state.forkType === 'fork-all'}
+                onClick={() => this.setState({forkType: 'fork-all'})}
               />
-              <label htmlFor="fork-all">All forks</label>
-              <input
-                type="radio"
-                id="one-fork"
-                className="link-detail-repository-radio"
-                checked={this.state.forkType === 'repo'}
-                onChange={() => this.setState({forkType: 'repo'})}
+              <LinkDetailForkChoice
+                icon={ONE_FORK_ICON}
+                label="One Fork"
+                active={this.state.forkType === 'repo'}
+                onClick={() => this.setState({forkType: 'repo'})}
               />
-              <label htmlFor="one-fork">One fork</label>
+              <LinkDetailForkChoice
+                icon={UNRELATED_ICON}
+                label="Unrelated"
+                active={this.state.forkType === 'unrelated-repo'}
+                onClick={() => this.setState({forkType: 'unrelated-repo'})}
+              />
             </div>
             {this.state.forkType === 'repo' ? <div>
               <div className="link-detail-repository-edit-row-owner-name">

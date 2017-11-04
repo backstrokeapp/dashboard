@@ -1,0 +1,46 @@
+/* A fork choice is one of the available options that can be picked on the link detail page that
+ * allows the user to define a scheme for updating forks. The three options are `all-forks`, `repo`,
+ * and `unrelated-repo`. */
+.link-detail-fork-choice {
+  flex: 1;
+
+  margin: 5px;
+  color: #333;
+  background-color: #ccc;
+  border-radius: 8px;
+  opacity: 0.8;
+
+  transition: all 50ms ease-in-out;
+  user-select: none;
+  cursor: pointer;
+
+  /* Items flow vertically, with the icon on top and the label below it. */
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+}
+.link-detail-fork-choice:active {
+  opacity: 0.65;
+}
+.link-detail-fork-choice.active {
+  background-color: #fff;
+  opacity: 1;
+}
+
+/* Remove margin at the start and the end */
+.link-detail-fork-choice:first-child { margin-left: 0px; }
+.link-detail-fork-choice:last-child { margin-right: 0px; }
+
+.link-detail-fork-choice-icon {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  height: 64px;
+  display: inline-block;
+}
+
+.link-detail-fork-choice-label {
+  font-size: 18px;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
