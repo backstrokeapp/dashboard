@@ -19,6 +19,7 @@ export default function LinkDetailForkChoice({
   </div>;
 }
 
+// Icons to insert into the `icon` prop of the above component.
 export const ALL_FORKS_ICON = <svg width="80px" height="56px" viewBox="0 0 100 71" version="1.1">
   <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Edit-Detail" transform="translate(-112.000000, -1202.000000)" stroke="#979797">
@@ -41,7 +42,7 @@ export const ONE_FORK_ICON = <svg width="80px" height="56px" viewBox="0 0 100 71
           <g id="Group-6" transform="translate(279.000000, 1203.000000)">
               <path d="M10.984774,57.6367355 L49.7600098,15.2546584" id="Path-6-Copy-5"></path>
               <ellipse id="Oval-4-Copy-6" fill="#EFEFEF" cx="11.5" cy="58" rx="11.5" ry="11"></ellipse>
-              <g id="Group-4" opacity="0.246490036" transform="translate(38.000000, 15.000000)">
+              <g id="Group-4" opacity="0.5" transform="translate(38.000000, 15.000000)">
                   <path d="M11,45.4477267 L11,0" id="Path-6-Copy-4"></path>
                   <path d="M10.4347826,42.3333845 L48.7071681,0" id="Path-6-Copy-3" transform="translate(29.570975, 21.166692) scale(-1, 1) translate(-29.570975, -21.166692) "></path>
                   <ellipse id="Oval-4-Copy-5" fill="#FFFFFF" cx="11.3043478" cy="43.03125" rx="11.3043478" ry="10.96875"></ellipse>
@@ -59,7 +60,7 @@ export const UNRELATED_ICON = <svg width="80px" height="56px" viewBox="0 0 100 7
           <g id="Group-8" transform="translate(449.000000, 1203.000000)">
               <path d="M72.969308,17.1589007 L17.8350566,17.1589007 L72.969308,17.1589007 Z" id="Path-6-Copy-6" stroke="#D7253B" strokeDasharray="4,5"></path>
               <ellipse id="Oval-4-Copy-12" stroke="#979797" fill="#EFEFEF" cx="72.5" cy="17" rx="17.5" ry="17"></ellipse>
-              <g id="Group-7" opacity="0.25" transform="translate(6.000000, 15.000000)" stroke="#979797">
+              <g id="Group-7" opacity="0.5" transform="translate(6.000000, 15.000000)" stroke="#979797">
                   <path d="M11.5,45.7546599 L11.5,0.254658385" id="Path-6-Copy-7"></path>
                   <path d="M10.4919207,42.6367355 L49.2671564,0.254658385" id="Path-6-Copy-9" transform="translate(29.879539, 21.445697) scale(-1, 1) translate(-29.879539, -21.445697) "></path>
                   <ellipse id="Oval-4-Copy-13" fill="#FFFFFF" transform="translate(48.500000, 43.000000) scale(-1, 1) translate(-48.500000, -43.000000) " cx="48.5" cy="43" rx="11.5" ry="11"></ellipse>

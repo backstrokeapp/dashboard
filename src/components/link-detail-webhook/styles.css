@@ -1,6 +1,6 @@
 .link-detail-webhook-header {
-  height: 32px;
-  line-height: 30px;
+  height: 24px;
+  line-height: 20px;
   display: flex;
   user-select: none;
 
@@ -11,10 +11,19 @@
   background-color: rgba(0, 0, 0, 0.3);
   color: #fff;
 
+  /* When closed, match the bottom of the header with the border radius of the card */
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+
   cursor: pointer;
 }
 .link-detail-webhook-header.open {
   background-color: #333;
+
+  /* When open, reset border radius to zero. */
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+
 }
 .link-detail-webhook-header-arrow {
   margin-left: auto;
@@ -33,6 +42,10 @@
   padding-right: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
+
+  /* When open, match the bottom of the header with the border radius of the card */
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 .link-detail-webhook pre {
   font-size: 12px;

@@ -13,7 +13,11 @@ import Switch from '../toggle-switch/index';
 import LinkError from '../link-error/index';
 import Button from '../button/index';
 import LinkDetailWebhook from '../link-detail-webhook/index';
-import LinkDetailForkChoice, { ALL_FORKS_ICON, ONE_FORK_ICON, UNRELATED_ICON } from '../link-detail-fork-choice/index';
+import LinkDetailForkChoice, {
+  ALL_FORKS_ICON,
+  ONE_FORK_ICON,
+  UNRELATED_ICON,
+} from '../link-detail-fork-choice/index';
 
 import collectionLinksEnable from '../../actions/collection/links/enable';
 import collectionLinksSave from '../../actions/collection/links/save';
@@ -110,8 +114,16 @@ export class LinkDetail extends React.Component {
         return {valid: false};
       }
     }).then(body => {
-      // Ensure that the fork is a fork
-      if (direction === 'fork' && body.fork === false) {
+      // Ensure that the repo is not in the network if `unrelated-repo` is selected.
+      if (direction === 'fork' && body.fork === true && this.state.forkType === 'unrelated-repo') {
+        this.setState({
+          [`${direction}Error`]: `Repo ${owner}/${repo} is related to the upstream. Please sync to a fork.`,
+        });
+        return;
+      }
+
+      // Ensure that the fork is a fork if the fork isn't set to be unrelated.
+      if (direction === 'fork' && body.fork === false && this.state.forkType !== 'unrelated-repo') {
         this.setState({
           [`${direction}Error`]: `Repo ${owner}/${repo} isn't a fork.`,
         });
@@ -128,7 +140,7 @@ export class LinkDetail extends React.Component {
       } else {
         this.setState({
           [`${direction}BranchList`]: [],
-          [`${direction}Error`]: `${owner}/${repo} not found.`,
+          [`${direction}Error`]: `The repository ${owner}/${repo} was not found.`,
         });
       }
     });
@@ -143,6 +155,10 @@ export class LinkDetail extends React.Component {
     ) && (
       // Fork is valid?
       (this.state.forkType === 'repo' && this.state.forkOwner && this.state.forkRepo && this.state.forkBranch)
+      || (
+        this.state.forkType === 'unrelated-repo' &&
+        this.state.forkOwner && this.state.forkRepo && this.state.forkBranch
+      )
       || this.state.forkType === 'fork-all'
     )
   }
@@ -296,7 +312,7 @@ export class LinkDetail extends React.Component {
 
         <div className="link-detail-repository to">
           <div className="link-detail-repository-header">
-            <span className="link-detail-repository-header-title">Upstream</span>
+            <span className="link-detail-repository-header-title">Repository</span>
             <span className="link-detail-repository-header-error">{this.state.upstreamError}</span>
           </div>
           <div className="link-detail-repository-edit">
@@ -353,32 +369,69 @@ export class LinkDetail extends React.Component {
           </div>
         </div>
         <div className="link-detail-repository from">
-          <div className="link-detail-repository-header">
-            <span className="link-detail-repository-header-title">Fork</span>
-            <span className="link-detail-repository-header-error">{this.state.forkError}</span>
-          </div>
           <div className="link-detail-repository-edit">
             <div className="link-detail-repository-edit-row-fork-choices">
               <LinkDetailForkChoice
                 icon={ALL_FORKS_ICON}
                 label="All Forks"
                 active={this.state.forkType === 'fork-all'}
-                onClick={() => this.setState({forkType: 'fork-all'})}
+                onClick={() =>
+                  this.setState({forkType: 'fork-all'}, () =>
+                    this.fetchBranches.call(this, 'fork'))}
               />
               <LinkDetailForkChoice
                 icon={ONE_FORK_ICON}
                 label="One Fork"
                 active={this.state.forkType === 'repo'}
-                onClick={() => this.setState({forkType: 'repo'})}
+                onClick={() =>
+                  this.setState({forkType: 'repo'}, () =>
+                    this.fetchBranches.call(this, 'fork'))}
               />
               <LinkDetailForkChoice
                 icon={UNRELATED_ICON}
-                label="Unrelated"
+                label="Unrelated Repo"
                 active={this.state.forkType === 'unrelated-repo'}
-                onClick={() => this.setState({forkType: 'unrelated-repo'})}
+                onClick={() =>
+                  this.setState({forkType: 'unrelated-repo'}, () =>
+                    this.fetchBranches.call(this, 'fork'))}
               />
             </div>
-            {this.state.forkType === 'repo' ? <div>
+
+            {/* Render a description of what the selected frok choice does. */}
+            {this.state.forkType !== 'fork-all' ? <div
+              className="link-detail-repository-edit-row-fork-choices-description"
+            >
+              {(forkType => {
+                switch (forkType) {
+                  case 'fork-all':
+                    return '';
+                  case 'repo':
+                    return `Sync changes to a single fork of ${
+                      this.state.upstreamOwner && this.state.upstreamRepo ?
+                        `${this.state.upstreamOwner}/${this.state.upstreamRepo}` :
+                        'the upstream'
+                    }`;
+                  case 'unrelated-repo':
+                    return <span>
+                      {`Sync changes to a repository that isn't in the same network as ${
+                        this.state.upstreamOwner && this.state.upstreamRepo ?
+                          `${this.state.upstreamOwner}/${this.state.upstreamRepo}` :
+                          'the upstream'
+                      }`}
+                      &nbsp;
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://bit.ly/backstroke-out-of-network"
+                      >How it works</a>
+                    </span>;
+                  default:
+                    return '';
+                }
+              })(this.state.forkType)}
+            </div> : null}
+
+            {this.state.forkType === 'repo' || this.state.forkType === 'unrelated-repo' ? <div>
               <div className="link-detail-repository-edit-row-owner-name">
                 <input
                   className="link-detail-box owner"
@@ -431,10 +484,11 @@ export class LinkDetail extends React.Component {
               </div>
             </div> : null}
           </div>
-        </div>
 
-        {/* Render a dropdown that shows the webhook url inside */}
-        <LinkDetailWebhook link={link} />
+          <div className="link-detail-repository-error">
+            {this.state.forkError}
+          </div>
+        </div>
 
         <div className="link-detail-save-button-container">
           <Button
@@ -443,6 +497,9 @@ export class LinkDetail extends React.Component {
             onClick={() => this.isLinkValid() && this.props.onSaveLink(this.makeLink())}
           >Save</Button>
         </div>
+
+        {/* Render a dropdown that shows the webhook url inside */}
+        <LinkDetailWebhook link={link} />
       </div>
 
       <div className="link-detail-footer">
