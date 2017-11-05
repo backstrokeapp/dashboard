@@ -7,20 +7,23 @@
     "@density/conduit": "^0.2.1",
     "classnames": "^2.2.5",
     "color-hash": "^1.0.3",
+    "enzyme": "^3.1.1",
+    "enzyme-adapter-react-16": "^1.0.4",
     "lodash.debounce": "^4.0.8",
     "mixpanel-browser": "^2.13.0",
     "normalize.css": "^7.0.0",
     "raven-js": "^3.19.1",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "16",
+    "react-dom": "16",
     "react-redux": "^5.0.5",
-    "react-select": "^1.0.0-rc.5",
+    "react-select": "^1.0.0-rc.10",
     "react-timeago": "^3.4.3",
     "redux": "^3.7.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "sinon": "^4.1.1"
   },
   "devDependencies": {
-    "react-scripts": "1.0.7"
+    "react-scripts": "1.0.17"
   },
   "scripts": {
     "start": "react-scripts start",
