@@ -16,7 +16,7 @@ jobs:
           command: yarn
       - run:
           name: "Run tests"
-          command: yarn test
+          command: REACT_APP_MIXPANEL_TOKEN= yarn test
       - run:
           name: "Make a build"
           command: yarn build
