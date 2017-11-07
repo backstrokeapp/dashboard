@@ -26,7 +26,7 @@ export default function links(state=initialState, action) {
   case COLLECTION_LINKS_START_LOADING:
     return {...state, loading: true, loadingSection: action.item || 'whole-page'};
   case COLLECTION_LINKS_ERROR:
-    return {...state, loading: false, error: action.error};
+    return {...state, loading: false, error: action.error.message || action.error};
 
   // Collection operations:
 
