@@ -182,12 +182,26 @@
 /* Label each repository with its respective label - `upstream` or `fork` */
 .link-detail-repository-header {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   font-size: 24px;
   margin-top: 18px;
 }
 .link-detail-repository-header-title {
   margin-right: auto;
+}
+.link-detail-repository-header-error {
+  font-size: 18px;
+  margin-top: 18px;
+  background-color: #333;
+
+  /* Align left and right edge of box with left and right edge of container */
+  margin-left: -24px;
+  padding-left: 24px;
+  margin-right: -24px;
+  padding-right: 24px;
+
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 /* The controls to change the owner / name / branch of a repository */
@@ -207,12 +221,6 @@
 @media (min-width: 450px) {
   .link-detail-repository-edit-row-fork-choices { flex-direction: row; }
 }
-
-.link-detail-repository-edit-row-fork-choices-description {
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-.link-detail-repository-edit-row-fork-choices-description a { color: #eee; }
 
 /* Style the radiobuttons */
 .link-detail-repository-radio {
@@ -235,6 +243,11 @@
 .link-detail-repository-radio + label {
   margin-right: 16px;
   user-select: none;
+}
+
+/* The container for the owner, repo, and branch inputs. */
+.link-detail-repository-edit-row {
+  margin-top: 16px;
 }
 
 /* Next, we have the row that contains the repository owner / repository name inputs. */
@@ -286,7 +299,6 @@
 
 
 .link-detail-save-button-container {
-  padding-top: 16px;
   padding-bottom: 16px;
   background-color: rgba(0, 0, 0, 0.2);
 }
