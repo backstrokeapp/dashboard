@@ -84,12 +84,7 @@ export class LinkDetail extends React.Component {
       forkType: (link && link.fork && link.fork.type) || 'fork-all',
 
       // Save the response from the api call made to get information about the fork.
-      forkMeta: {
-        valid: true,
-        // Assume that all single forks that were returned from the server are actually forks.
-        fork: link && link.form && link.fork.type === 'repo',
-        branches: (link && link.fork && link.fork.branches) || [],
-      },
+      forkMeta: {},
     };
 
     // Fetch metadata for the fork on component load.
@@ -129,32 +124,22 @@ export class LinkDetail extends React.Component {
         return {valid: false};
       }
     }).then(body => {
-      // Update the stored metadata on the state after the request is made.
+      // If we checked the fork, save the response for validation later.
       if (direction === 'fork') {
-        this.setState({forkMeta: body})
+        this.setState({forkMeta: body});
       }
 
-      // Ensure that the repo is not in the network if `unrelated-repo` is selected.
-      if (direction === 'fork' && body.fork === true && this.state.forkType === 'unrelated-repo') {
-        this.setState({
-          [`${direction}Error`]: `Repo ${owner}/${repo} is related to the upstream. lease sync to an out-of-network repository or pick 'One Fork'.`,
-        });
-        return;
-      }
-
-      // Ensure that the fork is a fork if the fork isn't set to be unrelated.
-      if (direction === 'fork' && body.fork === false && this.state.forkType !== 'unrelated-repo') {
-        this.setState({
-          forkError: `Repo ${this.state.forkOwner}/${this.state.forkRepo} is not related to the upstream. Please sync to an in network repository or click the 'Unrelated Repo' option.`,
-        });
-        return;
+      // Update the stored metadata on the state after the request is made.
+      let error = null;
+      if (direction === 'fork') {
+        error = this.validateFork.call(this, body);
       }
 
       // Update the branch list if there are branches.
       if (body.valid) {
         this.setState({
           [`${direction}BranchList`]: body.branches,
-          [`${direction}Error`]: null,
+          [`${direction}Error`]: error,
           [`${direction}Branch`]: branch ? branch : getDefaultBranch(body.branches),
         });
       } else {
@@ -164,6 +149,36 @@ export class LinkDetail extends React.Component {
         });
       }
     });
+  }
+
+  // After the repository that a fork points to is updated, this function validates the fork and
+  // throws any errors related to that fork. A couple cases in particular:
+  // - The fork isn't actually a fork.
+  // - The fork isn't a fork of the upstream.
+  // - etc...
+  validateFork(meta=this.state.forkMeta, forkType=this.state.forkType) {
+    // Ensure that the fork is actually a fork (unless the `unrelated-repo` choice is picked)
+    if (meta.fork === false && forkType !== 'unrelated-repo') {
+      return `Repo ${this.state.forkOwner}/${this.state.forkRepo} is not related to the upstream. Please sync to an fork.`;
+    }
+
+    // Ensure that if a fork is selected, that it is a fork of the upstream and not just a random
+    // other repo.
+    if (
+      meta.fork === true && 
+      meta.parent.owner !== this.state.upstreamOwner &&
+      meta.parent.repo !== this.state.upstreamRepo
+    ) {
+      return `Repo ${this.state.forkOwner}/${this.state.forkRepo} is not a fork of ${this.state.upstreamOwner}/${this.state.upstreamRepo}.`;
+    }
+
+    // Ensure that the repo is not in the network if `unrelated-repo` is selected.
+    if (meta.fork === true && forkType === 'unrelated-repo') {
+      return `Repo ${this.state.forkOwner}/${this.state.forkRepo} is a fork to the upstream. Please sync to an out-of-network repository or pick 'One Fork'.`;
+    }
+
+    // The fork looks good!
+    return null;
   }
 
   isLinkValid() {
@@ -404,7 +419,7 @@ export class LinkDetail extends React.Component {
                 onClick={() => {
                   this.setState({
                     forkType: 'fork-all',
-                    forkError: null,
+                    forkError: this.validateFork.call(this, this.state.forkMeta, 'fork-all'),
                   }, () => {
                     this.fetchMeta.call(this, 'fork')
                   });
@@ -415,22 +430,9 @@ export class LinkDetail extends React.Component {
                 label="One Fork"
                 active={this.state.forkType === 'repo'}
                 onClick={() => {
-                  // If the user tries to switch the type of the fork, verify that there isn't an
-                  // immediate validation error. This is really just a speed optimization; we don't
-                  // want to have to wait for the back-and-forth to the server to report this kind
-                  // of stuff.
-                  if (this.state.forkMeta.fork === false) {
-                    this.setState({
-                      forkType: 'repo',
-                      forkError: `Repo ${this.state.forkOwner}/${this.state.forkRepo} is not related to the upstream. Please sync to an in network repository or click the 'Unrelated Repo' option.`,
-                    });
-                    return;
-                  }
-
-                  // The repo passed all asnity checks. Update the state.
                   this.setState({
                     forkType: 'repo',
-                    forkError: null,
+                    forkError: this.validateFork.call(this, this.state.forkMeta, 'repo'),
                   }, () => this.fetchMeta.call(this, 'fork'));
                 }}
               />
@@ -439,22 +441,9 @@ export class LinkDetail extends React.Component {
                 label="Unrelated Repo"
                 active={this.state.forkType === 'unrelated-repo'}
                 onClick={() => {
-                  // If the user tries to switch the type of the fork, verify that there isn't an
-                  // immediate validation error. This is really just a speed optimization; we don't
-                  // want to have to wait for the back-and-forth to the server to report this kind
-                  // of stuff.
-                  if (this.state.forkMeta.fork === true) {
-                    this.setState({
-                      forkType: 'unrelated-repo',
-                      forkError: `Repo ${this.state.forkOwner}/${this.state.forkRepo} is related to the upstream. Please sync to an out-of-network repository or pick 'One Fork'.`,
-                    });
-                    return;
-                  }
-
-                  // The repo passed all asnity checks. Update the state.
                   this.setState({
                     forkType: 'unrelated-repo',
-                    forkError: null,
+                    forkError: this.validateFork.call(this, this.state.forkMeta, 'unrelated-repo'),
                   }, () => this.fetchMeta.call(this, 'fork'));
                 }}
               />
