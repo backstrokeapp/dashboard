@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './styles.css';
 import ColorHash from 'color-hash';
-import debounce from 'lodash.debounce';
+import lodashDebounce from 'lodash.debounce';
 import classnames from 'classnames';
 import mixpanel from 'mixpanel-browser';
 
@@ -29,6 +29,10 @@ import collectionLinksRefresh from '../../actions/collection/links/refresh';
 import RefreshIcon from '../../images/Refresh Icon.png';
 
 import { API_URL } from '../../constants';
+
+// When testing, don't debounce. It makes assertions harder.
+// FIXME: a bit of a hack. Other then timing, is there a way around this?
+const debounce = process.env.NODE_ENV === 'test' ? a => a : lodashDebounce;
 
 const ch = new ColorHash();
 const githubMatchExpression = /https?:\/\/github\.com\//;
@@ -242,6 +246,7 @@ export class LinkDetail extends React.Component {
             onClick={() => {
               const linkWasTriggeredButResponseIsPending = link.lastWebhookSync && link.lastWebhookSync.status !== 'TRIGGERED';
               const noWebhookSynced = !link.lastWebhookSync;
+
               if ((linkWasTriggeredButResponseIsPending || noWebhookSynced) && link.enabled) {
                 this.props.onResyncLink(link)
               }
@@ -325,7 +330,7 @@ export class LinkDetail extends React.Component {
                   e.target.value = removeGithubPrefixFromRepositoryUrl(e.target.value);
                   // If a string like "abc/def" is pasted into the textbox, then properly split it
                   // into the two boxes.
-                  if (e.target.value.indexOf('/') < e.target.value.length) {
+                  if (e.target.value.indexOf('/') !== -1) {
                     const parts = e.target.value.split('/');
                     this.setState({
                       upstreamOwner: parts[0],
@@ -468,8 +473,8 @@ export class LinkDetail extends React.Component {
                   value={this.state.forkRepo}
                   ref={ref => this.forkRepoBox = ref}
                   onChange={e => {
-                    this.setState({forkRepo: e.target.value})
-                    this.fetchBranches('fork');
+                    this.setState({forkRepo: e.target.value}, () =>
+                      this.fetchBranches('fork'));
                   }}
                 />
               </div>
