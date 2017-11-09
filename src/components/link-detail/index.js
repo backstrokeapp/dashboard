@@ -157,24 +157,29 @@ export class LinkDetail extends React.Component {
   // - The fork isn't a fork of the upstream.
   // - etc...
   validateFork(meta=this.state.forkMeta, forkType=this.state.forkType) {
+    // When the user selects `All Forks`, there are no inputs, so it's always valid.
+    if (forkType === 'fork-all') {
+      return null;
+    }
+
     // Ensure that the fork is actually a fork (unless the `unrelated-repo` choice is picked)
     if (meta.fork === false && forkType !== 'unrelated-repo') {
-      return `Repo ${this.state.forkOwner}/${this.state.forkRepo} is not related to the upstream. Please sync to an fork.`;
+      return `Repo ${this.state.forkOwner}/${this.state.forkRepo} is not related to the upstream.`;
     }
 
     // Ensure that if a fork is selected, that it is a fork of the upstream and not just a random
     // other repo.
     if (
       meta.fork === true && 
-      meta.parent.owner !== this.state.upstreamOwner &&
-      meta.parent.repo !== this.state.upstreamRepo
+      meta.parent.owner.toLowerCase() !== this.state.upstreamOwner.toLowerCase() &&
+      meta.parent.name.toLowerCase() !== this.state.upstreamRepo.toLowerCase()
     ) {
       return `Repo ${this.state.forkOwner}/${this.state.forkRepo} is not a fork of ${this.state.upstreamOwner}/${this.state.upstreamRepo}.`;
     }
 
     // Ensure that the repo is not in the network if `unrelated-repo` is selected.
     if (meta.fork === true && forkType === 'unrelated-repo') {
-      return `Repo ${this.state.forkOwner}/${this.state.forkRepo} is a fork to the upstream. Please sync to an out-of-network repository or pick 'One Fork'.`;
+      return `Repo ${this.state.forkOwner}/${this.state.forkRepo} is a fork of the upstream. Please sync to an out-of-network repository.`;
     }
 
     // The fork looks good!
@@ -228,12 +233,14 @@ export class LinkDetail extends React.Component {
   render() {
     const link = this.props.initialLinkState;
 
+    /* istanbul ignore next */
     process.env.REACT_APP_MIXPANEL_TOKEN && mixpanel.track('Rendered link detail page', {
       props: this.props,
       state: this.state,
     });
 
     if (!link) {
+      /* istanbul ignore next */
       process.env.REACT_APP_MIXPANEL_TOKEN && mixpanel.track('Rendered empty link detail page', {
         props: this.props,
         state: this.state,
@@ -291,7 +298,7 @@ export class LinkDetail extends React.Component {
             <span>Last synced: <TimeAgo date={ link.lastSyncedAt } /></span>
             <img
               className="link-detail-refresh-button"
-              onClick={() => {this.props.onRefreshSync(link.id)}}
+              onClick={() => this.props.onRefreshSync(link.id)}
               src={RefreshIcon}
               alt="Refresh last synced time"
               title="Refresh last synced time"
@@ -465,7 +472,7 @@ export class LinkDetail extends React.Component {
                     e.target.value = removeGithubPrefixFromRepositoryUrl(e.target.value);
                     // If a string like "abc/def" is pasted into the textbox, then properly split it
                     // into the two boxes.
-                    if (e.target.value.indexOf('/') < e.target.value.length) {
+                    if (e.target.value.indexOf('/') !== -1) {
                       const parts = e.target.value.split('/');
                       this.setState({
                         forkOwner: parts[0],
@@ -473,8 +480,9 @@ export class LinkDetail extends React.Component {
                       });
                       this.fetchMeta('fork');
                     } else {
-                      this.setState({forkOwner: e.target.value});
-                      this.fetchMeta('fork');
+                      this.setState({forkOwner: e.target.value}, () => {
+                        this.fetchMeta('fork');
+                      });
                     }
                   }}
                   onKeyDown={e => {
