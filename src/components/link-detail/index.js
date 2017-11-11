@@ -334,7 +334,7 @@ export class LinkDetail extends React.Component {
               return <div>
                 <div>
                   <span className="link-detail-sync-status-icon" role="img" aria-label="Success">&#9989;</span>
-                  Successfully synced link.
+                  {link.lastWebhookSync.output.response || `Successfully synced link.`}
                 </div>
                 <div>Started at: <span>{link.lastWebhookSync.startedAt}</span></div>
                 <div>Finished at: {link.lastWebhookSync.finishedAt}</div>
@@ -445,7 +445,7 @@ export class LinkDetail extends React.Component {
               />
               <LinkDetailForkChoice
                 icon={UNRELATED_ICON}
-                label="Unrelated Repo"
+                label="Duplicate"
                 active={this.state.forkType === 'unrelated-repo'}
                 onClick={() => {
                   this.setState({
