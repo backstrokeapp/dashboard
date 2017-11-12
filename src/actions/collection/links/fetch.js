@@ -3,6 +3,7 @@ import collectionLinksSet from './set';
 import { API_URL } from '../../../constants';
 
 export const COLLECTION_LINKS_FETCH = 'COLLECTION_LINKS_FETCH';
+const LINKS_PER_FULL_PAGE = 20;
 
 export default function collectionLinksFetch() {
   return async dispatch => {
@@ -21,7 +22,7 @@ export default function collectionLinksFetch() {
           aggregatedData = [...aggregatedData, ...data];
 
           // Did we come across a non-full page of data? If so, we're at the end and we're done.
-          if (data.length < 20) {
+          if (data.length < LINKS_PER_FULL_PAGE) {
             dispatch(collectionLinksSet(aggregatedData, 0));
             return;
           } else {
@@ -37,6 +38,7 @@ export default function collectionLinksFetch() {
         }
       }
     } catch (err) {
+      console.log(err)
       dispatch(collectionLinksError(`Couldn't fetch link collection: ${err.message}`));
     }
   };

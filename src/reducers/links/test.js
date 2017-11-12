@@ -1,7 +1,9 @@
 import assert from 'assert';
+import sinon from 'sinon';
 import links from './index';
 
 import collectionLinksSet from '../../actions/collection/links/set';
+import collectionLinksFetch from '../../actions/collection/links/fetch';
 import collectionLinksPush from '../../actions/collection/links/push';
 import { COLLECTION_LINKS_DELETE } from '../../actions/collection/links/delete';
 import collectionLinksStartLoading from '../../actions/collection/links/start-loading';
@@ -9,6 +11,8 @@ import collectionLinksError from '../../actions/collection/links/error';
 
 import routeTransitionLinkDetail from '../../actions/route-transition/link-detail';
 import routeTransitionLinkList from '../../actions/route-transition/link-list';
+
+const timeout = delay => new Promise(r => setTimeout(r, delay));
 
 const initialState = links(undefined, {});
 
@@ -140,6 +144,145 @@ describe('links', function() {
         ...initialState,
         error: null,
       });
+    });
+  });
+
+  describe('fetching data', function() {
+    const twentyLinks = Array(20).fill(0).map((_, id) => ({
+      id,
+      name: 'foo',
+      enabled: false,
+      upstream: {
+        type: 'repo',
+        owner: 'foo',
+        repo: 'bar',
+        branch: 'master',
+      },
+      upstream: {
+        type: 'repo',
+        owner: 'foo',
+        repo: 'bar',
+        branch: 'master',
+      },
+    }));
+    const tenLinks = Array(10).fill(0).map((_, id) => ({
+      id,
+      name: 'foo',
+      enabled: false,
+      upstream: {
+        type: 'repo',
+        owner: 'foo',
+        repo: 'bar',
+        branch: 'master',
+      },
+      upstream: {
+        type: 'repo',
+        owner: 'foo',
+        repo: 'bar',
+        branch: 'master',
+      },
+    }));
+
+    it(`should only fetch one page of data when there are less than 20 links`, async function() {
+      // Initialize the array mock.
+      const json = sinon.stub();
+      json.onCall(0).resolves({data: tenLinks});
+      global.fetch = sinon.stub().resolves({ok: true, json});
+
+      // Create an instance of the thunk `routeTransitionLinkDetail`
+      const thunk = collectionLinksFetch();
+
+      // Each time it's called, run the resulting action through the `links` reducer, updating the
+      // state in `response`.
+      let response = undefined;
+      thunk(action => {
+        response = links(response, action);
+      });
+
+      await timeout(100);
+
+      // Ensure that there are ten links in the store.
+      assert.equal(response.data.length, 10);
+
+      // And also ensure that only one ajax request was made.
+      assert.equal(global.fetch.callCount, 1);
+    });
+    it(`should fetch two pages for exactly 20 links`, async function() {
+      // Initialize the array mock.
+      const json = sinon.stub();
+      json.onCall(0).resolves({data: twentyLinks});
+      json.onCall(1).resolves({data: []});
+      global.fetch = sinon.stub().resolves({ok: true, json});
+
+      // Create an instance of the thunk `routeTransitionLinkDetail`
+      const thunk = collectionLinksFetch();
+
+      // Each time it's called, run the resulting action through the `links` reducer, updating the
+      // state in `response`.
+      let response = undefined;
+      thunk(action => {
+        response = links(response, action);
+      });
+
+      await timeout(100);
+
+      // Ensure that there are twenty links in the store.
+      assert.equal(response.data.length, 20);
+
+      // And also ensure that only two ajax requests were made.
+      assert.equal(global.fetch.callCount, 2);
+    });
+    it(`should fetch two pages when there are 30 links`, async function() {
+      // Initialize the array mock.
+      const json = sinon.stub();
+      json.onCall(0).resolves({data: twentyLinks});
+      json.onCall(1).resolves({data: tenLinks});
+      global.fetch = sinon.stub().resolves({ok: true, json});
+
+      // Create an instance of the thunk `routeTransitionLinkDetail`
+      const thunk = collectionLinksFetch();
+
+      // Each time it's called, run the resulting action through the `links` reducer, updating the
+      // state in `response`.
+      let response = undefined;
+      thunk(action => {
+        response = links(response, action);
+      });
+
+      await timeout(100);
+
+      // Ensure that there are thirty links in the store.
+      assert.equal(response.data.length, 30);
+
+      // And also ensure that only two ajax requests were made.
+      assert.equal(global.fetch.callCount, 2);
+    });
+    it(`should fetch 11 pages when there are 210 links`, async function() {
+      // Initialize the array mock.
+      const json = sinon.stub();
+      for (let i = 0; i < 10; i++) { // 0 - 9 (10 calls)
+        json.onCall(i).resolves({data: twentyLinks});
+      }
+      json.onCall(10).resolves({data: tenLinks}); // 10 (11th call)
+      global.fetch = sinon.stub().resolves({ok: true, json});
+
+      // Create an instance of the thunk `routeTransitionLinkDetail`
+      const thunk = collectionLinksFetch();
+
+      // Each time it's called, run the resulting action through the `links` reducer, updating the
+      // state in `response`.
+      let response = undefined;
+      thunk(action => {
+        response = links(response, action);
+      });
+
+      await timeout(100);
+
+      // Ensure that there are 210 links in the store.
+      assert.equal(response.data.length, 210);
+
+      // And also ensure that 11 ajax requests were made.
+      assert.equal(global.fetch.callCount, 11);
     });
   });
 
