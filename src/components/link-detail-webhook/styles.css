@@ -1,13 +1,16 @@
 .link-detail-webhook-header {
   height: 24px;
-  line-height: 20px;
+  line-height: 24px;
   display: flex;
   user-select: none;
 
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 10px;
-  padding-bottom: 10px;
+
+  /* Add extra padding added when section is closed to account for border radius */
+  padding-bottom: 14px;
+
   background-color: rgba(0, 0, 0, 0.3);
   color: #fff;
 
@@ -20,10 +23,13 @@
 .link-detail-webhook-header.open {
   background-color: #333;
 
+  /* Remove extra padding and line-height added when section is closed */
+  padding-bottom: 10px;
+  line-height: 20px;
+
   /* When open, reset border radius to zero. */
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
-
 }
 .link-detail-webhook-header-arrow {
   margin-left: auto;
