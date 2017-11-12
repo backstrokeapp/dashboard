@@ -334,8 +334,11 @@ export class LinkDetail extends React.Component {
               return <div>
                 <div>
                   <span className="link-detail-sync-status-icon" role="img" aria-label="Success">&#9989;</span>
-                  {link.lastWebhookSync.output.response || `Successfully synced link.`}
+                  Sync successful.
                 </div>
+                {link.lastWebhookSync.output.response ? <div>
+                  {link.lastWebhookSync.output.response}
+                </div>: null}
                 <div>Started at: <span>{link.lastWebhookSync.startedAt}</span></div>
                 <div>Finished at: {link.lastWebhookSync.finishedAt}</div>
               </div>;
