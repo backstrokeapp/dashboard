@@ -1,0 +1,86 @@
+.link-detail-operations {
+  flex: 1;
+
+  color: #fff;
+  background-color: #222;
+
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+
+  padding-top: 32px;
+  margin-top: 48px;
+  margin-left: 12px;
+  margin-bottom: 108px;
+
+  border-radius: 8px;
+}
+
+/* This class styles each operation row in the list. By default, it's in its closed position, and
+ * when clicked, it opens, exposing details related to the operation (it's status, it's logs, and
+ * more)*/
+.link-detail-operations-item {
+  list-style-type: none;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 24px;
+  padding-right: 24px;
+
+  border-bottom: 1px solid #555;
+}
+.link-detail-operations-item.selected {
+  background-color: #333;
+}
+
+.link-detail-operations-item-header {
+  height: 48px;
+  cursor: pointer;
+}
+
+/* Each operations row has two rows of information. These are created by nesting two row divs within a
+ * flex parent with a direction of column, where each row div has a flex direction of row. */
+.link-detail-operations-item-row {
+  display: flex;
+  flex-direction: row;
+}
+
+/* First, render an arrow to indicate whether this item is open or closed */
+.link-detail-operations-item-arrow {
+  margin-right: 10px;
+}
+.link-detail-operations-item-arrow.open { transform: rotate(90deg); } /* Point down when open */
+
+/* The status of the link operation is the second item in the operation row. It's either 'OK',
+ * 'ERROR', or 'RUNNING'. */
+.link-detail-operations-item-status {
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: auto;
+  user-select: none;
+}
+.link-detail-operations-item-status.status-ok { color: #43B02A; } /* ok, a green color */
+.link-detail-operations-item-status.status-error { color: #D44C3B; } /* error, a red color */
+.link-detail-operations-item-status.status-running { /* running, a yellow color */
+  color: #C0A333;
+  font-size: 14px;
+  margin-top: 1px; /* To center vertically: (16px - 14px) / 2 */
+}
+
+/* The id of the link operation, which is the last item on the first row. Similar to how github
+ * does it, we make this monospace and surround it in small box. */
+.link-detail-operations-item-id {
+  background-color: #666;
+  font-family: "Ubuntu Mono", "Droid Sans Mono", "Courier New", monospace;
+
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+
+  border-radius: 2px;
+  cursor: text;
+}
+
+.link-detail-operations-item-duration {
+  margin-top: 8px;
+  font-size: 14px;
+}

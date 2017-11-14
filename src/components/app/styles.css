@@ -1,3 +1,16 @@
-.app {
-  color: red;
+.app-link-detail-container {
+  display: flex;
+  flex-direction: row;
+
+  max-width: 1000px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0px auto;
+}
+
+@media (max-width: 500px) {
+  .app-link-detail-container {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }

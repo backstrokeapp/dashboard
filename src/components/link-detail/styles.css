@@ -24,6 +24,11 @@
   background-color: #999;
   transition: all 250ms ease-out;
 }
+@media (min-width: 500px) {
+  .link-detail {
+    width: 500px;
+  }
+}
 
 /* The link detail loading indicator is shown when the link detail card is in a loading state.
  * It's componsed of a :before spinner element and an :after that takes up the page and bocks any

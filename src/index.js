@@ -23,11 +23,13 @@ import { API_URL, setApiUrl } from './constants';
 
 import activePage from './reducers/active-page';
 import links from './reducers/links';
+import operations from './reducers/operations';
 import user from './reducers/user';
 
 const reducer = combineReducers({
   activePage,
   links,
+  operations,
   user,
 });
 
