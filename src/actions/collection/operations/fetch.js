@@ -17,6 +17,7 @@ export default function collectionOperationsFetch(linkId) {
       if (resp.ok) {
         const data = await resp.json();
         dispatch(collectionOperationsSet(data));
+        return data;
       }
     } catch (err) {
       dispatch(collectionOperationsError(`Couldn't fetch operations for link ${selectedLinkId}: ${err.message}`));

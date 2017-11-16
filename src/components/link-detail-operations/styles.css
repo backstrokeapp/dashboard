@@ -14,6 +14,45 @@
   border-radius: 8px;
 }
 
+.link-detail-operations-header-row {
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-bottom: 24px;
+
+  font-size: 18px;
+}
+
+.link-detail-operations-action-row {
+  display: flex;
+  flex-direction: row;
+
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-bottom: 24px;
+}
+.link-detail-operations-resync {
+  font-size: 16px;
+  min-width: 100px;
+  border-radius: 8px;
+}
+.link-detail-operations-last-synced-timestamp {
+  line-height: 50px;
+  margin-left: 20px;
+}
+
+.link-detail-operations-resync-loading-row {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
+
+  font-size: 18px;
+  background-color: #333;
+}
+.link-detail-operations-resync-loading-status-icon {
+  margin-right: 8px;
+}
+
 /* This class styles each operation row in the list. By default, it's in its closed position, and
  * when clicked, it opens, exposing details related to the operation (it's status, it's logs, and
  * more)*/
@@ -30,6 +69,7 @@
 .link-detail-operations-item.selected {
   background-color: #333;
 }
+.link-detail-operations-item:first-of-type { border-top: 1px solid #555; }
 
 .link-detail-operations-item-header {
   height: 48px;
@@ -45,7 +85,12 @@
 
 /* First, render an arrow to indicate whether this item is open or closed */
 .link-detail-operations-item-arrow {
-  margin-right: 10px;
+  margin-left: auto;
+  margin-right: 0px;
+  transform: rotate(180deg); /* Point left when closed */
+
+  position: relative;
+  top: 10px;
 }
 .link-detail-operations-item-arrow.open { transform: rotate(90deg); } /* Point down when open */
 
@@ -53,23 +98,22 @@
  * 'ERROR', or 'RUNNING'. */
 .link-detail-operations-item-status {
   font-weight: bold;
-  font-size: 16px;
-  margin-right: auto;
+  font-size: 20px;
   user-select: none;
+  position: relative;
+  top: 1px;
+  margin-right: 8px;
 }
 .link-detail-operations-item-status.status-ok { color: #43B02A; } /* ok, a green color */
 .link-detail-operations-item-status.status-error { color: #D44C3B; } /* error, a red color */
-.link-detail-operations-item-status.status-running { /* running, a yellow color */
-  color: #C0A333;
-  font-size: 14px;
-  margin-top: 1px; /* To center vertically: (16px - 14px) / 2 */
-}
+.link-detail-operations-item-status.status-running { color: #C0A333; } /* running, a yellow color */
 
 /* The id of the link operation, which is the last item on the first row. Similar to how github
  * does it, we make this monospace and surround it in small box. */
 .link-detail-operations-item-id {
   background-color: #666;
   font-family: "Ubuntu Mono", "Droid Sans Mono", "Courier New", monospace;
+  font-size: 18px;
 
   padding-top: 2px;
   padding-bottom: 2px;
@@ -82,5 +126,32 @@
 
 .link-detail-operations-item-duration {
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 16px;
+}
+
+
+
+.link-detail-operations-item-body {
+  list-style-type: none;
+  padding-left: 0px;
+  line-height: 24px;
+}
+
+/* Add a colon after the label */
+.link-detail-operations-item-body label:after {
+  padding-right: 10px;
+  content: ': ';
+}
+
+ul.link-detail-operations-item-body-item {
+  padding-left: 0px;
+}
+
+.link-detail-operations-item-body-item-error-item {
+  list-style-type: none;
+  background-color: #666;
+  padding: 4px;
+  border-radius: 4px;
+
+  margin-top: 4px;
 }

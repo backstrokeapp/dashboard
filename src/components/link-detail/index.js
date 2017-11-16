@@ -13,7 +13,6 @@ import Switch from '../toggle-switch/index';
 import LinkError from '../link-error/index';
 import Button from '../button/index';
 import LinkDetailWebhook from '../link-detail-webhook/index';
-import LinkDetailOperations from '../link-detail-operations/index';
 import LinkDetailForkChoice, {
   ALL_FORKS_ICON,
   ONE_FORK_ICON,
