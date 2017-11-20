@@ -7,8 +7,6 @@ import mixpanel from 'mixpanel-browser';
 
 import { connect } from 'react-redux';
 
-import TimeAgo from 'react-timeago';
-
 import Switch from '../toggle-switch/index';
 import LinkError from '../link-error/index';
 import Button from '../button/index';
@@ -22,11 +20,7 @@ import LinkDetailForkChoice, {
 import collectionLinksEnable from '../../actions/collection/links/enable';
 import collectionLinksSave from '../../actions/collection/links/save';
 import collectionLinksDelete from '../../actions/collection/links/delete';
-import collectionLinksResync from '../../actions/collection/links/resync';
 import collectionLinksHideSyncStatus from '../../actions/collection/links/hide-sync-status';
-import collectionLinksRefresh from '../../actions/collection/links/refresh';
-
-import RefreshIcon from '../../images/Refresh Icon.png';
 
 import { API_URL } from '../../constants';
 
@@ -279,32 +273,7 @@ export class LinkDetail extends React.Component {
             checked={link.enabled}
             onChange={() => this.props.onEnableLink(link)}
           />
-          <Button
-            className="link-detail-refresh"
-            onClick={() => {
-              const linkWasTriggeredButResponseIsPending = link.lastWebhookSync && link.lastWebhookSync.status !== 'TRIGGERED';
-              const noWebhookSynced = !link.lastWebhookSync;
-
-              if ((linkWasTriggeredButResponseIsPending || noWebhookSynced) && link.enabled) {
-                this.props.onResyncLink(link)
-              }
-            }}
-            disabled={link.enabled === false || (link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED')}
-          >{link.lastWebhookSync && link.lastWebhookSync.status === 'TRIGGERED' ? 'Waiting...' : 'Resync'}</Button>
         </div>
-
-        {link.enabled && link.lastSyncedAt ?
-          <div className="link-detail-row link-detail-last-sync-time">
-            <span>Last synced: <TimeAgo date={ link.lastSyncedAt } /></span>
-            <img
-              className="link-detail-refresh-button"
-              onClick={() => this.props.onRefreshSync(link.id)}
-              src={RefreshIcon}
-              alt="Refresh last synced time"
-              title="Refresh last synced time"
-            />
-          </div> : null
-        }
 
         {/* If a syncing operation is going on, show the status info in the view */}
         {link.lastWebhookSync ? <div className="link-detail-sync-status">
@@ -564,14 +533,8 @@ export default connect(state => {
         });
       }
     },
-    onResyncLink(link) {
-      dispatch(collectionLinksResync(link));
-    },
     onHideLinkSyncStatus(link) {
       dispatch(collectionLinksHideSyncStatus(link));
-    },
-    onRefreshSync(id) {
-      dispatch(collectionLinksRefresh(id));
     },
   };
 })(function(props) {

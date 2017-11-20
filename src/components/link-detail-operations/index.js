@@ -1,6 +1,8 @@
 import * as React from 'react';
 import classnames from 'classnames';
 
+import RefreshIcon from '../../images/Refresh Icon.png';
+
 import Button from '../button/index';
 
 import './styles.css';
@@ -8,6 +10,7 @@ import { API_URL } from '../../constants';
 
 import collectionOperationsSelect from '../../actions/collection/operations/select';
 import collectionLinksResync from '../../actions/collection/links/resync';
+import collectionLinksRefresh from '../../actions/collection/links/refresh';
 
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -23,45 +26,60 @@ export function LinkDetailOperations({
 
   onSelectOperation,
   onResyncLink,
+  onRefreshSync,
 }) {
+  const selectedLink = links.data.find(link => link.id === links.selected);
+
+  // Header that is visible throughout all pages.
+  const header = <div>
+    <div className="link-detail-operations-header-row">
+      Recent Link Operations
+    </div>
+
+    {selectedLink ? <div className="link-detail-operations-action-row">
+      <Button
+        className="link-detail-operations-resync"
+        disabled={selectedLink.enabled === false}
+        onClick={() => selectedLink.enabled ? onResyncLink(selectedLink) : null}
+      >Resync</Button>
+      <span className="link-detail-operations-last-synced-timestamp">
+        Last synced: <TimeAgo date={selectedLink.lastSyncedAt} />
+      </span>
+      <img
+        className="link-detail-operations-refresh-button"
+        onClick={() => onRefreshSync(selectedLink.id)}
+        src={RefreshIcon}
+        alt="Refresh last synced time"
+        title="Refresh last synced time"
+      />
+    </div> : null}
+
+    {selectedLink && selectedLink.linkOperation === 'SENDING' ? <div
+      className="link-detail-operations-resync-loading-row"
+    >
+      <span
+        className="link-detail-operations-resync-loading-status-icon"
+        role="img"
+        aria-label="Loading"
+      >&#8987;</span>
+      Waiting for response from server...
+    </div> : null}
+
+    {selectedLink && selectedLink.linkOperation === 'TRIGGERED' ? <div
+      className="link-detail-operations-resync-loading-row"
+    >
+      <span
+        className="link-detail-operations-resync-loading-status-icon"
+        role="img"
+        aria-label="Waiting"
+      >&#8987;</span>
+      Waiting for webhook to run...
+    </div> : null}
+  </div>;
+
   if (operations.data.length) {
-    const selectedLink = links.data.find(link => link.id === links.selected);
     return <div className="link-detail-operations">
-      <div className="link-detail-operations-header-row">
-        Recent Link Operations
-      </div>
-
-      {selectedLink ? <div className="link-detail-operations-action-row">
-        <Button
-          className="link-detail-operations-resync"
-          onClick={() => onResyncLink(selectedLink)}
-        >Resync</Button>
-        <span className="link-detail-operations-last-synced-timestamp">
-          Last synced: <TimeAgo date={selectedLink.lastSyncedAt} />
-        </span>
-      </div> : null}
-
-      {selectedLink && selectedLink.linkOperation === 'SENDING' ? <div
-        className="link-detail-operations-resync-loading-row"
-      >
-        <span
-          className="link-detail-operations-resync-loading-status-icon"
-          role="img"
-          aria-label="Loading"
-        >&#8987;</span>
-        Waiting for response from server...
-      </div> : null}
-
-      {selectedLink && selectedLink.linkOperation === 'TRIGGERED' ? <div
-        className="link-detail-operations-resync-loading-row"
-      >
-        <span
-          className="link-detail-operations-resync-loading-status-icon"
-          role="img"
-          aria-label="Waiting"
-        >&#8987;</span>
-        Waiting for webhook to run...
-      </div> : null}
+      {header}
 
       {operations.data.sort((a, b) => { // Sort links from newest to oldest.
         return moment.utc(b.startedAt).unix() - moment.utc(a.startedAt).unix();
@@ -199,7 +217,8 @@ export function LinkDetailOperations({
                 >{operation.output.forkCount}</span>
               </li> : null}
               {operation.output && operation.output.response ? <li>
-                <label htmlFor="link-detail-operations-item-body-item">Number of forks</label>
+                <label htmlFor="link-detail-operations-item-body-item">Response</label>
+                <br/>
                 <span
                   className="link-detail-operations-item-body-item"
                   id="link-detail-operations-item-body-item"
@@ -216,10 +235,34 @@ export function LinkDetailOperations({
     return <div className="link-detail-operations link-detail-operations-loading">
       Loading operations...
     </div>;
-  } else {
+  } else if (selectedLink) {
     return <div className="link-detail-operations link-detail-operations-empty">
-      No operations found. Maybe no link is selected?
+      {header}
+      <div className="link-detail-operations-error">
+
+        <svg
+          width="200px"
+          height="100px"
+          viewBox="0 0 210 100"
+          className="link-detail-operations-error-glyph"
+        >
+          <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+            <g id="Artboard-3" transform="translate(-321.000000, -667.000000)">
+              <g id="Group-5" transform="translate(320.000000, 667.000000)">
+                <path d="M106,45.7572209 L106,16" id="Path-9" stroke="#FFFFFF" strokeWidth="2"></path>
+                <path d="M106,45.7572209 L126.501614,45.7572209" id="Path-9-Copy" stroke="#DC6767" strokeWidth="3"></path>
+                <circle id="Oval-6" stroke="#FFFFFF" strokeWidth="4" cx="106" cy="45" r="43"></circle>
+                <circle id="Oval-6-Copy" fill="#FFFFFF" cx="106" cy="46" r="4"></circle>
+              </g>
+            </g>
+          </g>
+        </svg>
+
+        No operations have been started in the past 24 hours.
+      </div>
     </div>;
+  } else {
+    return null;
   }
 }
 
@@ -235,6 +278,9 @@ export default connect(state => {
     },
     onResyncLink(link) {
       dispatch(collectionLinksResync(link));
+    },
+    onRefreshSync(id) {
+      dispatch(collectionLinksRefresh(id));
     },
   };
 })(LinkDetailOperations);
