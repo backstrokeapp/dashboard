@@ -14,7 +14,7 @@ export default function resync(link) {
     dispatch(collectionLinksStartLoading());
 
     try {
-      const resp = await fetch(`${API_URL}/_${link.webhook}`);
+      const resp = await fetch(`${API_URL}/v1/links/${link.webhook}/sync`, {credentials: 'include'});
       if (resp.ok) {
         // Fetch the status url to poll for a status message.
         const data = await resp.json();

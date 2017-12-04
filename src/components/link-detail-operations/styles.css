@@ -12,6 +12,29 @@
   margin-bottom: 108px;
 
   border-radius: 8px;
+
+  position: relative;
+}
+.link-detail-operations.animate-in {
+  animation: link-detail-operations-animation 750ms 1;
+  animation-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+  animation-direction: reverse;
+}
+.link-detail-operations.animate-out {
+  animation: link-detail-operations-animation 750ms 1;
+  animation-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+@keyframes link-detail-operations-animation {
+  0% { display: none; }
+  1% { 
+    right: 0px;
+    opacity: 1;
+  }
+  25% { opacity: 1; }
+  100% {
+    right: 500px;
+    opacity: 0;
+  }
 }
 
 .link-detail-operations-header-row {
