@@ -370,7 +370,7 @@ export class LinkDetail extends React.Component {
                 checked={this.state.forkType === 'fork-all'}
                 onChange={() => this.setState({forkType: 'fork-all'})}
               />
-              <label htmlFor="fork-all">All forks</label>
+              <label htmlFor="fork-all">All forks with label</label>
               <input
                 type="radio"
                 id="one-fork"
@@ -380,6 +380,13 @@ export class LinkDetail extends React.Component {
               />
               <label htmlFor="one-fork">One fork</label>
             </div>
+            {this.state.forkType === 'fork-all' ? <div className="link-detail-repository-edit-fork-desc">
+              Sync any changes from the upstream repository to any fork of the upstream by adding a
+              label called <code>backstroke-sync</code> to any forks you wish to sync changes to.
+              <a target="_blank" rel="noopener noreferrer" href="https://help.github.com/articles/creating-a-label/">
+                Here's how to create a label on a fork.
+              </a>
+            </div> : null}
             {this.state.forkType === 'repo' ? <div>
               <div className="link-detail-repository-edit-row-owner-name">
                 <input
