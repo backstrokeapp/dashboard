@@ -14,7 +14,10 @@ export default function resync(link) {
     dispatch(collectionLinksStartLoading());
 
     try {
-      const resp = await fetch(`${API_URL}/v1/links/${link.webhook}/sync`, {credentials: 'include'});
+      const resp = await fetch(`${API_URL}/v1/links/${link.webhook}/sync`, {
+        method: 'POST',
+        credentials: 'include',
+      });
       if (resp.ok) {
         // Fetch the status url to poll for a status message.
         const data = await resp.json();
@@ -41,7 +44,7 @@ export default function resync(link) {
           }
         }, 1000);
       } else {
-        throw new Error(`Recived an error: ${resp.statusCode}`);
+        throw new Error(`Received an error: ${resp.statusCode}`);
       }
     } catch (err) {
       dispatch(collectionLinksError(err));
