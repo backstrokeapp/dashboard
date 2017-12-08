@@ -329,3 +329,20 @@
 }
 
 .link-detail-refresh-button:active { opacity: 0.8; }
+
+.link-detail-repository-edit-fork-desc {
+  font-size: 18px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.link-detail-repository-edit-fork-desc a {
+  color: #fff;
+  margin-left: 5px;
+}
+
+.link-detail-repository-edit-fork-desc code {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
