@@ -5,3 +5,15 @@
 body {
   background-color: #f8f8f8;
 }
+
+.shutdown-notice {
+  background-color: #df3535;
+  color: #fff;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.shutdown-notice h1 { margin-top: 0px; }
+.shutdown-notice a { color: #fff; }
+.shutdown-notice p { line-height: 32px; }

@@ -94,6 +94,17 @@ function ready() {
 
 ReactDOM.render(<Provider store={store}>
   <div>
+    <div class="shutdown-notice">
+      <h1>Backstroke has shut down.</h1>
+      <p>
+        This application is here purely for historical reasons - see the notice in the{' '}
+        <a href="https://github.com/backstrokeapp/server#i-dont-have-the-bandwidth-to-maintain-backstroke-anymore">README</a>
+        {' '}for more information. Thanks for the fun ride all these years!
+      </p>
+      <p>
+        - <a href="https://rgaus.net">Ryan Gaus</a>
+      </p>
+    </div>
     <App />
     <EnvironmentSwitcher
       keys={['!', '!', '`', ' ']} // Press '!!` ' to open environment switcher.
